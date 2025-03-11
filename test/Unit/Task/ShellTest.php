@@ -26,6 +26,8 @@ class ShellTest extends AbstractExternalTaskTestCase
             [],
             [
                 'scripts' => [],
+                'ignore_patterns' => [],
+                'whitelist_patterns' => [],
                 'triggered_by' => ['php'],
             ]
         ];
@@ -37,6 +39,8 @@ class ShellTest extends AbstractExternalTaskTestCase
                 'scripts' => [
                     ['phpunit']
                 ],
+                'ignore_patterns' => [],
+                'whitelist_patterns' => [],
                 'triggered_by' => ['php'],
             ]
         ];
@@ -50,6 +54,8 @@ class ShellTest extends AbstractExternalTaskTestCase
                 'scripts' => [
                     ['phpunit', 'tests']
                 ],
+                'ignore_patterns' => [],
+                'whitelist_patterns' => [],
                 'triggered_by' => ['php'],
             ]
         ];
@@ -128,6 +134,22 @@ class ShellTest extends AbstractExternalTaskTestCase
             [],
             $this->mockContext(RunContext::class),
             function () {}
+        ];
+        yield 'no-files-after-ignore-patterns' => [
+            [
+                'ignore_patterns' => ['test/'],
+            ],
+            $this->mockContext(RunContext::class, ['test/file.php']),
+            function() {
+            }
+        ];
+        yield 'no-files-after-whitelist-patterns' => [
+            [
+                'whitelist_patterns' => ['src/'],
+            ],
+            $this->mockContext(RunContext::class, ['config/file.php']),
+            function() {
+            }
         ];
         yield 'no-files-after-triggered-by' => [
             [],

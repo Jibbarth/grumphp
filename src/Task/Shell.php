@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GrumPHP\Task;
 
+use GrumPHP\Collection\FilesCollection;
 use GrumPHP\Exception\RuntimeException;
 use GrumPHP\Formatter\ProcessFormatterInterface;
 use GrumPHP\Runner\TaskResult;
@@ -25,10 +26,14 @@ class Shell extends AbstractExternalTask
         $resolver = new OptionsResolver();
         $resolver->setDefaults([
             'scripts' => [],
+            'ignore_patterns' => [],
+            'whitelist_patterns' => [],
             'triggered_by' => ['php'],
         ]);
 
         $resolver->addAllowedTypes('scripts', ['array']);
+        $resolver->addAllowedTypes('ignore_patterns', ['array']);
+        $resolver->addAllowedTypes('whitelist_patterns', ['array']);
         $resolver->addAllowedTypes('triggered_by', ['array']);
         $resolver->setNormalizer('scripts', function (Options $options, array $scripts) {
             return array_map(
@@ -59,7 +64,11 @@ class Shell extends AbstractExternalTask
     public function run(ContextInterface $context): TaskResultInterface
     {
         $config = $this->getConfig()->getOptions();
-        $files = $context->getFiles()->extensions($config['triggered_by']);
+
+        $files = $context->getFiles()
+            ->extensions($config['triggered_by'])
+            ->paths($config['whitelist_patterns'] ?? [])
+            ->notPaths($config['ignore_patterns'] ?? []);
         if (0 === \count($files)) {
             return TaskResult::createSkipped($this, $context);
         }
