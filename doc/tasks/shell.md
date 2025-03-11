@@ -41,7 +41,7 @@ grumphp:
 
 *Default: []*
 
-This is a list of file patterns that will be ignored by the Symfony console task.
+This is a list of file patterns that will be ignored by the shell tasks.
 Leave this option blank to run the task for all files defined in the whitelist_patterns and or triggered_by extensions.
 
 **whitelist_patterns**
