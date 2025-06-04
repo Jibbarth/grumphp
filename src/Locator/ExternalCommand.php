@@ -6,15 +6,11 @@ namespace GrumPHP\Locator;
 
 use GrumPHP\Exception\ExecutableNotFoundException;
 use GrumPHP\Util\Paths;
+use GrumPHP\Util\Platform;
 use Symfony\Component\Process\ExecutableFinder;
 
 class ExternalCommand
 {
-    /**
-     * @var list<string>
-     */
-    private $suffixes = ['', '.phar'];
-
     /**
      * @var string
      */
@@ -41,9 +37,9 @@ class ExternalCommand
 
     public function locate(string $command): string
     {
-        foreach ($this->suffixes as $suffix) {
+        $suffixes = Platform::isWindows() ? ['.bat', '', '.phar'] : ['', '.phar'];
+        foreach ($suffixes as $suffix) {
             $cmdName = $command . $suffix;
-            // Search executable:
             $executable = $this->executableFinder->find($cmdName, null, [$this->binDir]);
 
             if ($executable) {
