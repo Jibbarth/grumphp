@@ -47,6 +47,13 @@ class TasksCollection extends ArrayCollection
         });
     }
 
+    public function filterEnabled(): self
+    {
+        return $this->filter(
+            static fn(TaskInterface $task): bool => $task->getConfig()->getMetadata()->isEnabled()
+        );
+    }
+
     /**
      * This method sorts the tasks by highest priority first.
      */

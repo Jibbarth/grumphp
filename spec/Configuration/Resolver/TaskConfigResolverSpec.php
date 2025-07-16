@@ -3,11 +3,12 @@
 namespace spec\GrumPHP\Configuration\Resolver;
 
 use GrumPHP\Task\Config\ConfigOptionsResolver;
-use const GrumPHP\Exception\TaskConfigResolverException;
 use GrumPHP\Exception\TaskConfigResolverException;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskResultInterface;
 use GrumPHP\Task\Config\EmptyTaskConfig;
+use GrumPHP\Task\Config\Metadata;
+use GrumPHP\Task\Config\TaskConfig;
 use GrumPHP\Task\Config\TaskConfigInterface;
 use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\TaskInterface;
@@ -30,40 +31,67 @@ class TaskConfigResolverSpec extends ObjectBehavior
     public function it_can_list_task_names(): void
     {
         $this->beConstructedWith([
-            'task1' => get_class($this->mockTask()),
-            'task2' => get_class($this->mockTask()),
+            'task1' => [
+                'class' => get_class($this->mockTask()),
+                'config' => [],
+            ],
+            'task2' => [
+                'class' => get_class($this->mockTask()),
+                'config' => [],
+            ],
         ]);
         $this->listAvailableTaskNames()->shouldBe(['task1', 'task2']);
     }
 
-    public function it_can_resolve_config_for_task_without_metadata(): void
+    public function it_can_resolve_config_for_task(): void
     {
         $task1 = $this->mockTask();
-        $this->beConstructedWith([$taskName = 'task1' => get_class($task1)]);
-        $this->resolve('task1', ['metadata' => ['label' => 'hello']])->shouldBe([
-            'class' => get_class($task1),
+        $taskName = 'task1';
+        $this->beConstructedWith([
+            $taskName => [
+                'class' => get_class($task1),
+                'config' => [
+                    'foo' => 'hello',
+                    'metadata' => ['priority' => 1000],
+                ]
+            ]
         ]);
+
+        $actual = $this->resolve($taskName);
+        $actual->getName()->shouldBe($taskName);
+        $actual->getOptions()->shouldBe(['foo' => 'hello']);
+        $actual->getMetadata()->priority()->shouldBe(1000);
     }
 
-    public function it_fetches_resolver_for_task(): void
+    public function it_can_fetch_config_resolver_for_task(): void
     {
         $task1 = $this->mockTask();
-        $this->beConstructedWith([$taskName = 'task1' => get_class($task1)]);
-        $result = $this->fetchByName($taskName)->resolve([]);
-        $result->shouldBeLike($task1::getConfigurableOptions()->resolve([]));
+        $taskName = 'task1';
+        $this->beConstructedWith([
+            $taskName => [
+                'class' => get_class($task1),
+                'config' => [
+                    'foo' => 'hello',
+                    'metadata' => ['priority' => 1000],
+                ]
+            ]
+        ]);
+
+        $actual = $this->fetchByName($taskName);
+        $actual->resolve(['foo' => 'hello'])->shouldBe(['foo' => 'hello']);
     }
 
     public function it_fails_when_task_is_unknown(): void
     {
-        $this->beConstructedWith(['task1' => get_class($this->mockTask())]);
+        $this->beConstructedWith(['task1' => ['class' => get_class($this->mockTask())]]);
         $this->shouldThrow(TaskConfigResolverException::class)->duringFetchByName('task2');
     }
 
     public function it_fails_when_task_is_not_a_grumphp_task(): void
     {
         $this->beConstructedWith([
-            'task1' => get_class(new class() {}),
-            'task2' => 'Some\\Mega\\Unknown\\Class\\PLease\\Dont\\Create\\Me',
+            'task1' => ['class' => get_class(new class() {}), 'config' => []],
+            'task2' => ['class' => 'Some\\Mega\\Unknown\\Class\\PLease\\Dont\\Create\\Me', 'config' => []],
         ]);
         $this->shouldThrow(TaskConfigResolverException::class)->duringFetchByName('task1');
         $this->shouldThrow(TaskConfigResolverException::class)->duringFetchByName('task2');
@@ -76,7 +104,7 @@ class TaskConfigResolverSpec extends ObjectBehavior
             public static function getConfigurableOptions(): ConfigOptionsResolver
             {
                 $options = new OptionsResolver();
-                $options->setDefault('class', static::class);
+                $options->setDefault('foo', 'bar');
                 return ConfigOptionsResolver::fromOptionsResolver($options);
             }
 

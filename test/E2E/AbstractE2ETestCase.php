@@ -330,6 +330,34 @@ abstract class AbstractE2ETestCase extends TestCase
         ]);
     }
 
+    protected function enableDummyTask(string $grumphpFile, string $projectDir, array $config = [])
+    {
+        $e2eDir = $this->ensureGrumphpE2eTasksDir($projectDir);
+        $this->dumpFile(
+            $e2eDir.'/DummyTask.php',
+            file_get_contents(TEST_BASE_PATH.'/fixtures/e2e/tasks/DummyTask.php')
+        );
+
+        $this->mergeGrumphpConfig($grumphpFile, [
+            'grumphp' => [
+                'tasks' => [
+                    'dummy' => $config
+                ],
+            ],
+            'services' => [
+                'GrumPHPE2E\\DummyTask' => [
+                    'arguments' => [],
+                    'tags' => [
+                        [
+                            'name' => 'grumphp.task',
+                            'task' => 'dummy'
+                        ],
+                    ]
+                ]
+            ],
+        ]);
+    }
+
     protected function installComposer(string $path, array $arguments = [])
     {
         $process = new Process(

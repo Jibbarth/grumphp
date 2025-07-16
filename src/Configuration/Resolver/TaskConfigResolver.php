@@ -6,12 +6,21 @@ namespace GrumPHP\Configuration\Resolver;
 
 use GrumPHP\Exception\TaskConfigResolverException;
 use GrumPHP\Task\Config\ConfigOptionsResolver;
+use GrumPHP\Task\Config\Metadata;
+use GrumPHP\Task\Config\TaskConfig;
+use GrumPHP\Task\Config\TaskConfigInterface;
 use GrumPHP\Task\TaskInterface;
 
+/**
+ * @psalm-type TaskConfiguration = array{
+ *     class: string,
+ *     config: array
+ * }
+ */
 class TaskConfigResolver
 {
     /**
-     * @var array<string, string>
+     * @var array<string, TaskConfiguration>
      */
     private $taskMap;
 
@@ -28,14 +37,21 @@ class TaskConfigResolver
         return array_keys($this->taskMap);
     }
 
-    public function resolve(string $taskName, array $config): array
+    public function resolve(string $taskName): TaskConfigInterface
     {
         $resolver = $this->fetchByName($taskName);
 
-        // Make sure metadata is never a part of the task configuration
-        unset($config['metadata']);
+        $config = $this->taskMap[$taskName]['config'] ?? [];
+        $metadata = new Metadata($config['metadata'] ?? []);
 
-        return $resolver->resolve($config);
+        unset($config['metadata']);
+        $resolvedConfig = $resolver->resolve($config);
+
+        return new TaskConfig(
+            $taskName,
+            $resolvedConfig,
+            $metadata
+        );
     }
 
     public function fetchByName(string $taskName): ConfigOptionsResolver
@@ -44,8 +60,8 @@ class TaskConfigResolver
             throw TaskConfigResolverException::unknownTask($taskName);
         }
 
-        $class = $this->taskMap[$taskName];
-        if (!class_exists($class) || !is_subclass_of($class, TaskInterface::class)) {
+        $class = $this->taskMap[$taskName]['class'] ?? '';
+        if (!$class || !class_exists($class) || !is_subclass_of($class, TaskInterface::class)) {
             throw TaskConfigResolverException::unknownClass($class);
         }
 
