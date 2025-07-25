@@ -39,6 +39,41 @@ class ConfigurationTest extends AbstractE2ETestCase
     }
 
     /** @test */
+    function it_should_be_able_to_resolve_internal_dotenv_environment_configuations()
+    {
+        $this->initializeGitInRootDir();
+        $this->initializeComposer($this->rootDir);
+        $grumphpFile = $this->initializeGrumphpConfig(path: $this->rootDir, customConfig: [
+            'parameters' => [
+                'env(GRUMPHP_PARAMETER_TEST)' => '~'
+            ],
+            'grumphp' => [
+                'ascii' => [
+                    'succeeded' => '%env(string:GRUMPHP_PARAMETER_TEST)%',
+                ],
+                'environment' => [
+                    'variables' => [
+                        'GRUMPHP_PARAMETER_TEST' => 'succeeded.txt',
+                    ]
+                ],
+            ],
+        ]);
+
+        $this->installComposer($this->rootDir);
+        $this->ensureHooksExist();
+
+        $this->enableValidatePathsTask($grumphpFile, $this->rootDir);
+
+        $this->commitAll();
+        $process = $this->runGrumphp(projectPath: $this->rootDir);
+
+        $this->assertStringContainsString(
+            file_get_contents(PROJECT_BASE_PATH . '/resources/ascii/succeeded.txt'),
+            $process->getOutput(),
+        );
+    }
+
+    /** @test */
     function it_should_be_able_to_resolve_dist_file_imports()
     {
         $this->initializeGitInRootDir();

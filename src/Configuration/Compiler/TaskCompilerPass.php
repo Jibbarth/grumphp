@@ -8,9 +8,6 @@ use GrumPHP\Collection\TasksCollection;
 use GrumPHP\Configuration\Configurator\TaskConfigurator;
 use GrumPHP\Configuration\Resolver\TaskConfigResolver;
 use GrumPHP\Exception\TaskConfigResolverException;
-use GrumPHP\Task\Config\LazyTaskConfig;
-use GrumPHP\Task\Config\Metadata;
-use GrumPHP\Task\Config\TaskConfig;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -30,7 +27,7 @@ class TaskCompilerPass implements CompilerPassInterface
         $availableTasks = $this->fetchAvailableTasksInfo($container);
         $configuredTasks = $container->getParameter('tasks');
         $configuredTasks = is_array($configuredTasks) ? $configuredTasks : [];
-        $taskConfigResolver = $this->buildTaskConfigResolver($availableTasks);
+        $taskResolverConfig = [];
 
         // Configure tasks
         foreach ($configuredTasks as $taskName => $config) {
@@ -46,30 +43,27 @@ class TaskCompilerPass implements CompilerPassInterface
             ['id' => $taskId, 'class' => $taskClass, 'info' => $taskInfo] = $currentTaskService;
             $configuredTaskKey = $taskId.'.'.$taskName.'.configured';
 
-            // Setup metadata:
-            $metadata = new Metadata(array_merge(
-                ['priority' => $taskInfo['priority']],
-                $metadataConfig
-            ));
-
-            // Disabled tasks can be skipped
-            // This allows to conditionally disable tasks through parameters or by an extension.
-            if (!$metadata->isEnabled()) {
-                continue;
-            }
+            // Store the configuration in the task resolver config:
+            // This way, the resolver knows how to build all task related configurations.
+            // It is stores in a pain array so that env variables get resolved and can be used in the configuration.
+            $taskResolverConfig[$taskName] = [
+                'class' => $taskClass,
+                'config' => array_merge(
+                    $taskConfig,
+                    [
+                        'metadata' => array_merge(
+                            ['priority' => $taskInfo['priority']],
+                            $taskConfig['metadata'] ?? [],
+                        ),
+                    ],
+                )
+            ];
 
             // Configure task:
             $taskBuilder = new Definition($taskClass, [
                 new Reference($taskId),
-                new LazyTaskConfig(
-                    function () use ($taskName, $taskConfigResolver, $currentTaskName, $taskConfig, $metadata) {
-                        return new TaskConfig(
-                            $taskName,
-                            $taskConfigResolver->resolve($currentTaskName, $taskConfig),
-                            $metadata
-                        );
-                    }
-                )
+                new Reference(TaskConfigResolver::class),
+                $taskName,
             ]);
             $taskBuilder->setFactory([new Reference(TaskConfigurator::class), '__invoke']);
             $taskBuilder->addTag('configured.task');
@@ -80,7 +74,10 @@ class TaskCompilerPass implements CompilerPassInterface
         }
 
         // Register available and configured tasks for easy data usage in the application:
-        $container->set(TaskConfigResolver::class, $taskConfigResolver);
+        $container->setDefinition(TaskConfigResolver::class, new Definition(
+            TaskConfigResolver::class,
+            [$taskResolverConfig]
+        ));
         $container->setParameter('grumphp.tasks.configured', array_keys($configuredTasks));
     }
 
@@ -126,17 +123,5 @@ class TaskCompilerPass implements CompilerPassInterface
         }
 
         return $map;
-    }
-
-    private function buildTaskConfigResolver(array $availableTasks): TaskConfigResolver
-    {
-        return new TaskConfigResolver(
-            array_map(
-                function ($availableTask): string {
-                    return (string) ($availableTask['class'] ?? '');
-                },
-                $availableTasks
-            )
-        );
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GrumPHP\Configuration;
 
-use GrumPHP\Configuration\Environment\DotEnvRegistrar;
 use GrumPHP\Configuration\Environment\PathsRegistrar;
 use GrumPHP\Configuration\Model\EnvConfig;
 use GrumPHP\Locator\EnrichedGuessedPathsFromDotEnvLocator;
@@ -27,12 +26,9 @@ class ContainerFactory
         // Build the service container:
         $container = ContainerBuilder::buildFromConfiguration($guessedPaths->getConfigFile());
 
-        // Load environment config:
+        // Apply environment configurations onto guessed paths:
         $config = $container->get(EnvConfig::class);
         assert($config instanceof EnvConfig);
-
-        // Set up the environment and overwrite guessed paths if needed:
-        DotEnvRegistrar::register($config);
         $guessedPaths = self::enrichGuessedPathsWithDotEnv($container, $guessedPaths);
 
         //  Make sure that important paths are loaded first:

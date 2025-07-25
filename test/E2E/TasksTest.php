@@ -20,4 +20,30 @@ class TasksTest extends AbstractE2ETestCase
         $this->commitAll();
         $this->runGrumphp($this->rootDir);
     }
+
+    /** @test */
+    function it_can_resolve_task_config_With_env_vars()
+    {
+        $this->initializeGitInRootDir();
+        $this->initializeComposer($this->rootDir);
+        $grumphpFile = $this->initializeGrumphpConfig(path: $this->rootDir, customConfig: [
+            'grumphp' => [
+                'environment' => [
+                    'variables' => [
+                        'SHOULD_DUMMY_SUCCEED' => 1,
+                    ]
+                ],
+            ],
+        ]);
+
+        $this->installComposer($this->rootDir);
+        $this->ensureHooksExist();
+
+        $this->enableDummyTask($grumphpFile, $this->rootDir, [
+            'should_succeed' => '%env(bool:SHOULD_DUMMY_SUCCEED)%',
+        ]);
+
+        $this->commitAll();
+        $this->runGrumphp($this->rootDir);
+    }
 }

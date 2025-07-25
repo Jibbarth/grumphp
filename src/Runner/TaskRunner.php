@@ -28,7 +28,7 @@ class TaskRunner
     public function run(TaskRunnerContext $runnerContext): TaskResultCollection
     {
         return $this->middleware->handle(
-            $runnerContext->withTasks($this->tasks)
+            $runnerContext->withTasks($this->tasks->filterEnabled())
         );
     }
 }

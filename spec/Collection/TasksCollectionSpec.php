@@ -54,6 +54,19 @@ class TasksCollectionSpec extends ObjectBehavior
         $tasks[0]->shouldBe($task1);
     }
 
+    function it_can_filter_enabled(TaskInterface $task1, TaskInterface $task2, TestSuiteInterface $testSuite)
+    {
+        $task1->getConfig()->willReturn(new TaskConfig('task1', [], new Metadata(['enabled' => true])));
+        $task2->getConfig()->willReturn(new TaskConfig('task2', [], new Metadata(['enabled' => false])));
+        $testSuite->getTaskNames()->willReturn(['task1']);
+
+        $result = $this->filterEnabled($testSuite);
+        $result->shouldBeAnInstanceOf(TasksCollection::class);
+        $result->count()->shouldBe(1);
+        $tasks = $result->toArray();
+        $tasks[0]->shouldBe($task1);
+    }
+
     function it_can_filter_by_empty_testsuite(TaskInterface $task1, TaskInterface $task2)
     {
         $result = $this->filterByTestSuite(null);
