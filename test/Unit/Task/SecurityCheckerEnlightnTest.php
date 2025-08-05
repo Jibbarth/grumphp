@@ -116,7 +116,8 @@ class SecurityCheckerEnlightnTest extends AbstractExternalTaskTestCase
             [
                 'security:check',
                 './composer.lock',
-                '--allow-list=allow_advisory_1,allow_advisory_2'
+                '--allow-list=allow_advisory_1',
+                '--allow-list=allow_advisory_2',
             ]
         ];
     }
