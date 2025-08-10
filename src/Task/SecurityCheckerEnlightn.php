@@ -52,7 +52,7 @@ class SecurityCheckerEnlightn extends AbstractExternalTask
         $arguments = $this->processBuilder->createArgumentsForCommand('security-checker');
         $arguments->add('security:check');
         $arguments->addOptionalArgument('%s', $config['lockfile']);
-        $arguments->addOptionalCommaSeparatedArgument('--allow-list=%s', $config['allow_list']);
+        $arguments->addArgumentArray('--allow-list=%s', $config['allow_list']);
 
         $process = $this->processBuilder->buildProcess($arguments);
         $process->run();
