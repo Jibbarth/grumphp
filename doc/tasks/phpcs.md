@@ -78,7 +78,7 @@ By default, the standard will specify the optimal tab-width of the code. If you 
 
 *Default: null*
 
-The default encoding used by PHP_CodeSniffer (is ISO-8859-1).
+The default encoding used by PHP_CodeSniffer (is UTF-8).
 
 **report**
 
