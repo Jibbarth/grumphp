@@ -12,6 +12,7 @@ grumphp:
       verbose: true
     phpunit:
       testsuite: Unit
+    composer_psr: ~
     composer:
       no_check_lock: true
     composer_normalize:

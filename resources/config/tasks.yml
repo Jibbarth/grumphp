@@ -48,6 +48,13 @@ services:
         tags:
             - {name: grumphp.task, task: composer}
 
+    GrumPHP\Task\ComposerPsr:
+        arguments:
+          - '@process_builder'
+          - '@formatter.raw_process'
+        tags:
+            - {name: grumphp.task, task: composer_psr}
+
     GrumPHP\Task\ComposerNormalize:
         arguments:
             - '@process_builder'
