@@ -15,6 +15,7 @@ grumphp:
         codeception: ~
         composer: ~
         composer_normalize: ~
+        composer_psr: ~
         composer_require_checker: ~
         composer_script: ~
         deptrac: ~
@@ -81,6 +82,7 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Codeception](tasks/codeception.md)
 - [Composer](tasks/composer.md)
 - [Composer Normalize](tasks/composer_normalize.md)
+- [Composer PSR](tasks/composer_psr.md)
 - [Composer Require Checker](tasks/composer_require_checker.md)
 - [Composer Script](tasks/composer_script.md)
 - [Doctrine ORM](tasks/doctrine_orm.md)
