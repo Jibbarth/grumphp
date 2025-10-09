@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @extends AbstractExternalTask<ProcessFormatterInterface>
  */
-class ComposerPsr extends AbstractExternalTask
+class ValidateAutoload extends AbstractExternalTask
 {
     public function canRunInContext(ContextInterface $context): bool
     {

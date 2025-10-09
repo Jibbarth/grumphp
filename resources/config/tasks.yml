@@ -48,13 +48,6 @@ services:
         tags:
             - {name: grumphp.task, task: composer}
 
-    GrumPHP\Task\ComposerPsr:
-        arguments:
-          - '@process_builder'
-          - '@formatter.raw_process'
-        tags:
-            - {name: grumphp.task, task: composer_psr}
-
     GrumPHP\Task\ComposerNormalize:
         arguments:
             - '@process_builder'
@@ -421,6 +414,13 @@ services:
             - '@formatter.raw_process'
         tags:
             - {name: grumphp.task, task: twigcsfixer}
+
+    GrumPHP\Task\ValidateAutoload:
+      arguments:
+        - '@process_builder'
+        - '@formatter.raw_process'
+      tags:
+        - {name: grumphp.task, task: validate_autoload}
 
     GrumPHP\Task\XmlLint:
         arguments:

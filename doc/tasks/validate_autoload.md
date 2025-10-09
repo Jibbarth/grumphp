@@ -1,4 +1,4 @@
-# Composer PSR
+# Validate Autoload
 
 This task checks for PSR-4 or PSR-0 mapping errors. It will run [`composer dump-autoload`](https://getcomposer.org/doc/03-cli.md#dump-autoload-dumpautoload) (with the `--dry-run` option to avoid actually changing files). The configuration looks like:
 
@@ -8,7 +8,7 @@ This task checks for PSR-4 or PSR-0 mapping errors. It will run [`composer dump-
 # grumphp.yml
 grumphp:
     tasks:
-        composer_psr:
+        validate_autoload:
             file: ./composer.json
             strict_ambiguous: false
 ```

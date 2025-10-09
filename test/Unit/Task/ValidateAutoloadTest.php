@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\Unit\Task;
 
-use GrumPHP\Task\ComposerPsr;
 use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractExternalTaskTestCase;
+use GrumPHP\Task\ValidateAutoload;
 
-class ComposerPsrTest extends AbstractExternalTaskTestCase
+class ValidateAutoloadTest extends AbstractExternalTaskTestCase
 {
     protected function provideTask(): TaskInterface
     {
-        return new ComposerPsr(
+        return new ValidateAutoload(
             $this->processBuilder->reveal(),
             $this->formatter->reveal()
         );

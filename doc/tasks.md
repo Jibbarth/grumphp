@@ -15,7 +15,6 @@ grumphp:
         codeception: ~
         composer: ~
         composer_normalize: ~
-        composer_psr: ~
         composer_require_checker: ~
         composer_script: ~
         deptrac: ~
@@ -66,6 +65,7 @@ grumphp:
         tester: ~
         twigcs: ~
         twigcsfixer: ~
+        validate_autoload: ~
         xmllint: ~
         yamllint: ~
 ```
@@ -82,7 +82,6 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Codeception](tasks/codeception.md)
 - [Composer](tasks/composer.md)
 - [Composer Normalize](tasks/composer_normalize.md)
-- [Composer PSR](tasks/composer_psr.md)
 - [Composer Require Checker](tasks/composer_require_checker.md)
 - [Composer Script](tasks/composer_script.md)
 - [Doctrine ORM](tasks/doctrine_orm.md)
@@ -135,6 +134,7 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Tester](tasks/tester.md)
 - [TwigCs](tasks/twigcs.md)
 - [Twig-CS-Fixer](tasks/twigcsfixer.md)
+- [Validate Autoload](tasks/validate_autoload.md)
 - [XmlLint](tasks/xmllint.md)
 - [YamlLint](tasks/yamllint.md)
 
