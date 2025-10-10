@@ -1,4 +1,4 @@
-<?php /** @noinspection DuplicatedCode */
+<?php
 
 declare(strict_types=1);
 
@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @extends AbstractExternalTask<ProcessFormatterInterface>
  */
-class ValidateAutoload extends AbstractExternalTask
+class ComposerValidateAutoload extends AbstractExternalTask
 {
     public function canRunInContext(ContextInterface $context): bool
     {

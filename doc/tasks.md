@@ -17,6 +17,7 @@ grumphp:
         composer_normalize: ~
         composer_require_checker: ~
         composer_script: ~
+        composer_validate_autoload: ~
         deptrac: ~
         doctrine_orm: ~
         ecs: ~
@@ -65,7 +66,6 @@ grumphp:
         tester: ~
         twigcs: ~
         twigcsfixer: ~
-        validate_autoload: ~
         xmllint: ~
         yamllint: ~
 ```
@@ -84,6 +84,7 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Composer Normalize](tasks/composer_normalize.md)
 - [Composer Require Checker](tasks/composer_require_checker.md)
 - [Composer Script](tasks/composer_script.md)
+- [Composer Validate Autoload](tasks/composer_validate_autoload.md)
 - [Doctrine ORM](tasks/doctrine_orm.md)
 - [Ecs EasyCodingStandard](tasks/ecs.md)
 - [ESLint](tasks/eslint.md)
@@ -134,7 +135,6 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Tester](tasks/tester.md)
 - [TwigCs](tasks/twigcs.md)
 - [Twig-CS-Fixer](tasks/twigcsfixer.md)
-- [Validate Autoload](tasks/validate_autoload.md)
 - [XmlLint](tasks/xmllint.md)
 - [YamlLint](tasks/yamllint.md)
 

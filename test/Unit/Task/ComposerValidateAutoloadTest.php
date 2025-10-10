@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\Unit\Task;
 
+use GrumPHP\Task\ComposerValidateAutoload;
 use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractExternalTaskTestCase;
-use GrumPHP\Task\ValidateAutoload;
 
-class ValidateAutoloadTest extends AbstractExternalTaskTestCase
+class ComposerValidateAutoloadTest extends AbstractExternalTaskTestCase
 {
     protected function provideTask(): TaskInterface
     {
-        return new ValidateAutoload(
+        return new ComposerValidateAutoload(
             $this->processBuilder->reveal(),
             $this->formatter->reveal()
         );
