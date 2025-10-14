@@ -18,7 +18,7 @@ services:
     executable_finder:
         class: Symfony\Component\Process\ExecutableFinder
         calls:
-            - { method: 'setSuffixes', arguments: [['.phar', '.exe', '.bat', '.cmd', '.com']] }
+            - { method: 'setSuffixes', arguments: [['.phar']] }
 
     process_builder:
       class: GrumPHP\Process\ProcessBuilder
