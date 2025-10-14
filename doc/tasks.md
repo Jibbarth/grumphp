@@ -17,6 +17,7 @@ grumphp:
         composer_normalize: ~
         composer_require_checker: ~
         composer_script: ~
+        composer_validate_autoload: ~
         deptrac: ~
         doctrine_orm: ~
         ecs: ~
@@ -83,6 +84,7 @@ Every task has its own default configuration. It is possible to overwrite the pa
 - [Composer Normalize](tasks/composer_normalize.md)
 - [Composer Require Checker](tasks/composer_require_checker.md)
 - [Composer Script](tasks/composer_script.md)
+- [Composer Validate Autoload](tasks/composer_validate_autoload.md)
 - [Doctrine ORM](tasks/doctrine_orm.md)
 - [Ecs EasyCodingStandard](tasks/ecs.md)
 - [ESLint](tasks/eslint.md)

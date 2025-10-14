@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GrumPHP\Test\Unit\Task;
+namespace GrumPHPTest\Unit\Task;
 
 use GrumPHP\Runner\FixableTaskResult;
 use GrumPHP\Task\Context\GitPreCommitContext;

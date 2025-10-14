@@ -16,6 +16,7 @@ grumphp:
       no_check_lock: true
     composer_normalize:
       use_standalone: true
+    composer_validate_autoload: ~
     yamllint:
       parse_custom_tags: true
       ignore_patterns:

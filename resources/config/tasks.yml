@@ -69,6 +69,13 @@ services:
         tags:
             - {name: grumphp.task, task: composer_require_checker}
 
+    GrumPHP\Task\ComposerValidateAutoload:
+      arguments:
+        - '@process_builder'
+        - '@formatter.raw_process'
+      tags:
+        - {name: grumphp.task, task: composer_validate_autoload}
+
     GrumPHP\Task\Deptrac:
         arguments:
             - '@process_builder'
