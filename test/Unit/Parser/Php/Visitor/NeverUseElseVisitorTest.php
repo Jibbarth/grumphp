@@ -16,9 +16,7 @@ class NeverUseElseVisitorTest extends AbstractVisitorTest
         return new NeverUseElseVisitor();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_does_not_allow_else_statements()
     {
         $code = <<<EOC
@@ -39,9 +37,7 @@ EOC;
         $this->assertEquals(6, $errors[1]->getLine());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_allows_code_with_no_else_statements()
     {
         $code = <<<EOC

@@ -6,7 +6,7 @@ namespace GrumPHPTest\E2E;
 
 class ConfigurationTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_should_be_able_to_resolve_env_variable_in_configuration()
     {
         $this->initializeGitInRootDir();
@@ -38,7 +38,7 @@ class ConfigurationTest extends AbstractE2ETestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function it_should_be_able_to_resolve_internal_dotenv_environment_configuations()
     {
         $this->initializeGitInRootDir();
@@ -73,7 +73,7 @@ class ConfigurationTest extends AbstractE2ETestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function it_should_be_able_to_resolve_dist_file_imports()
     {
         $this->initializeGitInRootDir();

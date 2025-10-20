@@ -21,7 +21,7 @@ class TaskRunnerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_run_the_specified_tasks(): void
     {
         $expectedResult = new TaskResultCollection();

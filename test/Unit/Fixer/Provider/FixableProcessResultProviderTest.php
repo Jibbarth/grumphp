@@ -17,7 +17,7 @@ class FixableProcessResultProviderTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_build_a_fixable_task_result(): void
     {
         $process = $this->mockProcess($command = 'command');

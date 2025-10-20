@@ -16,9 +16,7 @@ class NoExitStatementsVisitorTest extends AbstractVisitorTest
         return new NoExitStatementsVisitor();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_does_not_allow_exit_statements()
     {
         $code = <<<EOC
@@ -34,9 +32,7 @@ EOC;
         $this->assertEquals(3, $errors[1]->getLine());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_allows_code_with_no_exit_statements()
     {
         $code = <<<EOC

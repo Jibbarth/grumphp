@@ -40,7 +40,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_success(): void
     {
         $context = $this->createRunnerContext();
@@ -70,7 +70,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_skipped(): void
     {
         $context = $this->createRunnerContext();
@@ -100,7 +100,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_failed(): void
     {
         $context = $this->createRunnerContext();

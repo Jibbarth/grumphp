@@ -33,7 +33,7 @@ class MemoizedResultsTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddle
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_success(): void
     {
         $context = $this->createRunnerContext();
@@ -48,7 +48,7 @@ class MemoizedResultsTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddle
         self::assertSame($this->map->get('task'), $actualResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_exceptions(): void
     {
         $context = $this->createRunnerContext();

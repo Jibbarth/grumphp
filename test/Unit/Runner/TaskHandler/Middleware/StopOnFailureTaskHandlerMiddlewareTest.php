@@ -22,7 +22,7 @@ class StopOnFailureTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewa
         $this->middleware = new StopOnFailureTaskHandlerMiddleware();
     }
 
-    /** @test */
+    #[Test]
     public function it_decides_if_a_result_should_stop_task_execition(): void
     {
         $stopOnFailure = StopOnFailure::createFromConfig(

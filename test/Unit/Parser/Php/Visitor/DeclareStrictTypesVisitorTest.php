@@ -13,9 +13,7 @@ class DeclareStrictTypesVisitorTest extends AbstractVisitorTest
         return new DeclareStrictTypesVisitor();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_enforces_strict_types()
     {
         $code = <<<EOC
@@ -32,9 +30,7 @@ EOC;
         $this->assertEquals(-1, $errors[0]->getLine());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_doesnt_allow_strict_types_with_value_0()
     {
         $code = <<<EOC
@@ -50,9 +46,7 @@ EOC;
         $this->assertCount(1, $errors);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_allows_code_with_strict_types_set()
     {
         $code = <<<EOC

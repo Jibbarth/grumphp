@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConfigOptionsResolverTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_resolve_from_closure(): void
     {
         $resolver = ConfigOptionsResolver::fromClosure(static fn (array $data): array  => [...$data, 'world']);
@@ -17,7 +17,7 @@ class ConfigOptionsResolverTest extends TestCase
         self::assertSame(['hello', 'world'], $resolver->resolve(['hello']));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_resolve_from_symfony_options_resolver(): void
     {
         $optionsResolver = new OptionsResolver();

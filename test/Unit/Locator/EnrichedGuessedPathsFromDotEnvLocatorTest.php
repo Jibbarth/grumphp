@@ -40,10 +40,8 @@ class EnrichedGuessedPathsFromDotEnvLocatorTest extends FilesystemTestCase
         }
     }
 
-    /**
-     * @dataProvider provideTestCases
-     * @test
-     */
+    #[DataProvider('provideTestCases')]
+    #[Test]
     public function it_can_guess_paths(
         callable $createSystem,
         callable $input,

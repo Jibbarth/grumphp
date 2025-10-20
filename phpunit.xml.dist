@@ -1,4 +1,12 @@
-<phpunit bootstrap="test/Bootstrap.php" colors="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="test/Bootstrap.php" 
+    colors="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    failOnWarning="true"
+    failOnPhpunitWarning="true">
     <php>
         <ini name="error_reporting" value="-1" />
     </php>

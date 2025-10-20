@@ -38,7 +38,7 @@ class ReportingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewareTe
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_reports_results(): void
     {
         $context = $this->createRunnerContext();

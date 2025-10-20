@@ -31,7 +31,7 @@ class GroupByPriorityMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_run_tasks_grouped_by_priority(): void
     {
         $context = $this->createRunnerContext()->withTasks(new TasksCollection([
@@ -55,7 +55,7 @@ class GroupByPriorityMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertSame($result->get(2)->getTask(), $task2);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_skip_on_failure(): void
     {
         $this->middleware = new GroupByPriorityMiddleware(

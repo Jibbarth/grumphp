@@ -40,7 +40,7 @@ class EventDispatchingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestC
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_dispatch_run_success_events(): void
     {
         $context = $this->createRunnerContext();
@@ -71,7 +71,7 @@ class EventDispatchingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestC
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_dispatch_run_failed_events(): void
     {
         $context = $this->createRunnerContext();

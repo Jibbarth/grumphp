@@ -55,7 +55,7 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         $this->filesystem->isFile(Argument::exact('./composer.json'))->willReturn(false);
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -151,10 +151,8 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider provideExternalTaskRuns
-     */
+    #[DataProvider('provideExternalTaskRuns')]
+    #[Test]
     public function it_runs_external_task(
         array $config,
         ContextInterface $context,

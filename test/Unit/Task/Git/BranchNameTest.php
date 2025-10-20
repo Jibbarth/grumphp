@@ -30,7 +30,7 @@ class BranchNameTest extends AbstractTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -187,7 +187,7 @@ class BranchNameTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         return [];
     }

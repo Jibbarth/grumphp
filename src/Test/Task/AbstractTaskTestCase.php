@@ -11,6 +11,8 @@ use GrumPHP\Task\Config\Metadata;
 use GrumPHP\Task\Config\TaskConfig;
 use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\TaskInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -27,7 +29,7 @@ abstract class AbstractTaskTestCase extends TestCase
     protected $task;
 
     abstract protected function provideTask(): TaskInterface;
-    abstract public function provideConfigurableOptions(): iterable;
+    abstract public static function provideConfigurableOptions(): iterable;
     abstract public function provideRunContexts(): iterable;
     abstract public function provideFailsOnStuff(): iterable;
     abstract public function providePassesOnStuff(): iterable;
@@ -39,10 +41,8 @@ abstract class AbstractTaskTestCase extends TestCase
         $this->task = $this->provideTask();
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigurableOptions
-     */
+    #[DataProvider('provideConfigurableOptions')]
+    #[Test]
     public function it_contains_configurable_options(array $input, ?array $output): void
     {
         if (!$output) {

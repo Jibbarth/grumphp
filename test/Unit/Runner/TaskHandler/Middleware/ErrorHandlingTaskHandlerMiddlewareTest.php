@@ -25,7 +25,7 @@ class ErrorHandlingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewa
         $this->middleware = new ErrorHandlingTaskHandlerMiddleware();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_success(): void
     {
         $context = $this->createRunnerContext();
@@ -42,7 +42,7 @@ class ErrorHandlingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewa
         self::assertTrue($actualResult->isPassed());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_platform_exceptions(): void
     {
         $context = $this->createRunnerContext();
@@ -60,7 +60,7 @@ class ErrorHandlingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewa
         self::assertSame('', $actualResult->getMessage());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_other_exceptions(): void
     {
         $context = $this->createRunnerContext();

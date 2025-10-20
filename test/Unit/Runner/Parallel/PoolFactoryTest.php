@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class PoolFactoryTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_create_pool(): void
     {
         $config = new ParallelConfig($enabled = true, $maxSize = 10);

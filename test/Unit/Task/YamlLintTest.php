@@ -33,7 +33,7 @@ class YamlLintTest extends AbstractTaskTestCase
         return new YamlLint($this->linter->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],

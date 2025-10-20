@@ -33,7 +33,7 @@ class XmlLintTest extends AbstractTaskTestCase
         return new XmlLint($this->linter->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],

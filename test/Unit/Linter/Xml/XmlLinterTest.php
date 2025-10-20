@@ -50,19 +50,15 @@ class XmlLinterTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider provideXmlValidation
-     */
+    #[DataProvider('provideXmlValidation')]
+    #[Test]
     function it_should_validate_xml_for_syntax_errors($fixture, $errors)
     {
         $this->validateFixture($fixture, $errors);
     }
 
-    /**
-     * @test
-     * @dataProvider provideDtdValidation
-     */
+    #[DataProvider('provideDtdValidation')]
+    #[Test]
     function it_should_validate_xml_with_dtd($fixture, $errors, $loadFromNet)
     {
         $this->linter->setDtdValidation(true);
@@ -71,10 +67,8 @@ class XmlLinterTest extends TestCase
         $this->validateFixture($fixture, $errors);
     }
 
-    /**
-     * @test
-     * @dataProvider provideSchemeValidation
-     */
+    #[DataProvider('provideSchemeValidation')]
+    #[Test]
     function it_should_validate_xml_with_xsd($fixture, $errors, $loadFromNet)
     {
         $this->linter->setSchemeValidation(true);
@@ -83,10 +77,8 @@ class XmlLinterTest extends TestCase
         $this->validateFixture($fixture, $errors);
     }
 
-    /**
-     * @test
-     * @dataProvider provideDtdAndSchemeValidation
-     */
+    #[DataProvider('provideDtdAndSchemeValidation')]
+    #[Test]
     function it_should_validate_both_xsd_and_dtd($fixture, $errors)
     {
         $this->linter->setDtdValidation(true);
@@ -95,10 +87,8 @@ class XmlLinterTest extends TestCase
         $this->validateFixture($fixture, $errors);
     }
 
-    /**
-     * @test
-     * @dataProvider provideXincludeValidation
-     */
+    #[DataProvider('provideXincludeValidation')]
+    #[Test]
     function it_can_handle_xincludes($fixture, $errors)
     {
         $this->linter->setXInclude(true);
@@ -109,7 +99,7 @@ class XmlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideXmlValidation()
+    static function provideXmlValidation()
     {
         return [
             ['fixture' => 'xml-valid.xml', 'errors' => 0],
@@ -120,7 +110,7 @@ class XmlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideDtdValidation()
+    static function provideDtdValidation()
     {
         return [
             ['fixture' => 'xml-valid.xml', 'errors' => 0, 'loadFromNet' => false],
@@ -137,7 +127,7 @@ class XmlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideSchemeValidation()
+    static function provideSchemeValidation()
     {
         return [
             ['fixture' => 'xml-valid.xml', 'errors' => 0, 'loadFromNet' => false],
@@ -154,7 +144,7 @@ class XmlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideDtdAndSchemeValidation()
+    static function provideDtdAndSchemeValidation()
     {
         return [
             ['fixture' => 'dtd-xsd-valid.xml', 'errors' => 0],
@@ -165,7 +155,7 @@ class XmlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideXincludeValidation()
+    static function provideXincludeValidation()
     {
         return [
             ['fixture' => 'xml-valid.xml', 'errors' => 0],

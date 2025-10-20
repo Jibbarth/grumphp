@@ -34,7 +34,7 @@ class ReportingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_report_runner_results(): void
     {
         $context = $this->createRunnerContext();

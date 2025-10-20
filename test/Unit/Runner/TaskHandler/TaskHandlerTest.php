@@ -22,7 +22,7 @@ class TaskHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_has_a_default_fallback_middleware(): void
     {
         $stack = new TaskHandler();
@@ -34,7 +34,7 @@ class TaskHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_run_middlewares_in_a_stack(): void
     {
         $task = $this->createTask();

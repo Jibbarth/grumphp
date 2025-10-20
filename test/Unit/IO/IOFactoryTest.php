@@ -17,9 +17,7 @@ class IOFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_detect_it_is_not_in_a_ci_environment()
     {
         /** @var ObjectProphecy & CiDetector $ciDetector */
@@ -40,9 +38,7 @@ class IOFactoryTest extends TestCase
         self::assertSame(ConsoleIO::class, get_class($result));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_detect_it_is_in_a_ci_environment()
     {
         /** @var ObjectProphecy & CiDetector $ciDetector */

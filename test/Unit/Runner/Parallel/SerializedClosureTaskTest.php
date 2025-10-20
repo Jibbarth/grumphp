@@ -13,7 +13,7 @@ class SerializedClosureTaskTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_run_serialized_closure(): void
     {
         $task = SerializedClosureTask::fromClosure(fn () => 'hello world');

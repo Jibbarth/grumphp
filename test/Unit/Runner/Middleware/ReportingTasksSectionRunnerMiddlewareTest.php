@@ -35,7 +35,7 @@ class ReportingTasksSectionRunnerMiddlewareTest extends AbstractRunnerMiddleware
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_report_running_tasks(): void
     {
         $context = $this->createRunnerContext();

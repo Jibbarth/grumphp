@@ -14,17 +14,13 @@ use SplFileInfo;
 
 abstract class AbstractVisitorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     function it_is_a_visitor()
     {
         self::assertInstanceOf(NodeVisitorAbstract::class, $this->getVisitor());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_is_a_context_aware_visitor()
     {
         self::assertInstanceOf(ContextAwareVisitorInterface::class, $this->getVisitor());

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class FixResultTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_contain_a_result(): void
     {
         $result = FixResult::success('success');
@@ -18,7 +18,7 @@ class FixResultTest extends TestCase
         self::assertSame('success', $result->result());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_contain_an_error(): void
     {
         $result = FixResult::failed($error = new \Exception('error'));

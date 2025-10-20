@@ -22,17 +22,13 @@ class ForbiddenStaticMethodCallsVisitorTest extends AbstractVisitorTest
         return $visitor;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_is_a_configurable_visitor()
     {
         $this->assertInstanceOf(ConfigurableVisitorInterface::class, $this->getVisitor());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_does_not_allow_blacklisted_static_method_calls()
     {
         $code = <<<EOC
@@ -55,9 +51,7 @@ EOC;
         $this->assertEquals(7, $errors[2]->getLine());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_allows_code_that_does_not_use_invalid_functions()
     {
         $code = <<<EOC

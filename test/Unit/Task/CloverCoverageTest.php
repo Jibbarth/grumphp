@@ -30,7 +30,7 @@ class CloverCoverageTest extends AbstractTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [

@@ -25,7 +25,7 @@ class NonBlockingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddleware
         $this->middleware = new NonBlockingTaskHandlerMiddleware();
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_on_success(): void
     {
         $context = $this->createRunnerContext();
@@ -40,7 +40,7 @@ class NonBlockingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddleware
         self::assertSame($expectedResult, $actualResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_on_skipped(): void
     {
         $context = $this->createRunnerContext();
@@ -55,7 +55,7 @@ class NonBlockingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddleware
         self::assertSame($expectedResult, $actualResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_on_failed_for_a_blocking_task(): void
     {
         $context = $this->createRunnerContext();
@@ -70,7 +70,7 @@ class NonBlockingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddleware
         self::assertSame($expectedResult, $actualResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_marks_result_as_non_blocking_on_a_failed_non_blocking_task(): void
     {
         $context = $this->createRunnerContext();

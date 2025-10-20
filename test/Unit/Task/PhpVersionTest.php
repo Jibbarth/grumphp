@@ -27,7 +27,7 @@ class PhpVersionTest extends AbstractTaskTestCase
         return new PhpVersion($this->versionUtility->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],

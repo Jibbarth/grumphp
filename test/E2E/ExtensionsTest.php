@@ -6,7 +6,7 @@ namespace GrumPHPTest\E2E;
 
 class ExtensionsTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_can_configure_an_extension()
     {
         $this->initializeGitInRootDir();

@@ -41,7 +41,7 @@ class CommitMessageTest extends AbstractTaskTestCase
         return $lines . PHP_EOL . 'Original commit message:' . PHP_EOL . $commitMsg->getCommitMessage();
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],

@@ -54,7 +54,7 @@ class PathsTest extends FilesystemTestCase
         $this->packageRootDir = dirname(__DIR__, 3);
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_package_root_dir(): void
     {
         $this->assertSame(
@@ -63,7 +63,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_internal_resources_dir(): void
     {
         $this->assertSame(
@@ -72,7 +72,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_internal_ascii_dir(): void
     {
         $this->assertSame(
@@ -81,7 +81,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_internal_hooks_template_dir(): void
     {
         $this->assertSame(
@@ -90,7 +90,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_the_git_working_directory(): void
     {
         $this->assertSame(
@@ -99,7 +99,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_the_git_repository_directory(): void
     {
         $this->assertSame(
@@ -108,7 +108,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_the_git_hooks_directory(): void
     {
         $this->assertSame(
@@ -117,7 +117,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_the_project_directory(): void
     {
         $this->assertSame(
@@ -126,10 +126,8 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider provideFilenamesRelativeToProjectDirCases()
-     */
+    #[DataProvider('provideFilenamesRelativeToProjectDirCases')]
+    #[Test]
     public function it_can_make_file_paths_relative_to_project_dir($projectDir, $path, $expected): void
     {
         $guessedPaths = $this->prophesize(GuessedPaths::class);
@@ -147,7 +145,7 @@ class PathsTest extends FilesystemTestCase
         $this->assertSame($expected, $this->paths->makePathRelativeToProjectDir($this->buildPath($this->workspace, $path)));
     }
 
-    public function provideFilenamesRelativeToProjectDirCases()
+    public static function provideFilenamesRelativeToProjectDirCases()
     {
         return [
             [
@@ -178,10 +176,8 @@ class PathsTest extends FilesystemTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider provideFilenamesRelativeToProjectDirWhenInProjectPathCases()
-     */
+    #[DataProvider('provideFilenamesRelativeToProjectDirWhenInProjectPathCases')]
+    #[Test]
     public function it_can_make_file_paths_relative_to_project_dir_when_in_project_folder(
         $projectDir,
         $path,
@@ -206,7 +202,7 @@ class PathsTest extends FilesystemTestCase
         );
     }
 
-    public function provideFilenamesRelativeToProjectDirWhenInProjectPathCases()
+    public static function provideFilenamesRelativeToProjectDirWhenInProjectPathCases()
     {
         return [
             [

@@ -19,7 +19,7 @@ class MemoizedTaskResultMapTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_does_not_contain_a_task_result(): void
     {
         $map = new MemoizedTaskResultMap();
@@ -27,7 +27,7 @@ class MemoizedTaskResultMapTest extends TestCase
         self::assertSame(null, $map->get('task'));
     }
 
-    /** @test */
+    #[Test]
     public function it_contains_a_task_result(): void
     {
         /** @var ObjectProphecy|TaskInterface $task */

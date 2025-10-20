@@ -19,7 +19,7 @@ class FileSizeTest extends AbstractTaskTestCase
         return new FileSize();
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],

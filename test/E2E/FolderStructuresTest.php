@@ -6,7 +6,7 @@ namespace GrumPHPTest\E2E;
 
 class FolderStructuresTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_should_be_able_to_load_cli_info_when_no_git_repo()
     {
         $this->initializeComposer($this->rootDir);
@@ -15,7 +15,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphpInfo($this->rootDir);
     }
 
-    /** @test */
+    #[Test]
     function it_has_all_config_files_in_root_git_dir()
     {
         $this->initializeGitInRootDir();
@@ -30,7 +30,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphp($this->rootDir);
     }
 
-    /** @test */
+    #[Test]
     function it_has_project_subfolder()
     {
         $this->initializeGitInRootDir();
@@ -45,7 +45,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphp($projectDir);
     }
 
-    /** @test */
+    #[Test]
     function it_can_define_conventions_at_another_location()
     {
         $this->initializeGitInRootDir();
@@ -63,7 +63,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphp($this->rootDir);
     }
 
-    /** @test */
+    #[Test]
     function it_has_convention_at_another_location_through_cli_params()
     {
         $this->initializeGitInRootDir();
@@ -82,7 +82,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphpWithConfig($this->rootDir, $grumphpFile);
     }
 
-    /** @test */
+    #[Test]
     function it_has_grumphp_in_root_but_composer_in_project_folder()
     {
         $this->markTestSkipped('Broken test... Unable to locate autoloader!');
@@ -107,7 +107,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function it_has_composer_in_root_but_grumphp_in_project_folder()
     {
         $this->markTestSkipped('Broken test... Unable to locate autoloader!');
@@ -128,7 +128,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
         $this->runGrumphp($projectDir, '../vendor');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_manipulate_guessed_paths_by_environment_variables_for_mega_insane_project_structures(): void
     {
         $gitDir = $this->mkdir('git');
@@ -164,7 +164,7 @@ class FolderStructuresTest extends AbstractE2ETestCase
     }
 
 
-    /** @test */
+    #[Test]
     function it_can_deal_with_symlinks()
     {
         $sourceLocation = $this->mkdir('project-src');

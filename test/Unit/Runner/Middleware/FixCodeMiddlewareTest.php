@@ -34,7 +34,7 @@ class FixCodeMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_fix_broken_tasks(): void
     {
         $context = $this->createRunnerContext();

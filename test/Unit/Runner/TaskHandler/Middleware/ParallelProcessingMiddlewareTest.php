@@ -38,7 +38,7 @@ class ParallelProcessingMiddlewareTest extends AbstractTaskHandlerMiddlewareTest
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_in_serial_when_parallel_is_disabled(): void
     {
         $context = $this->createRunnerContext();

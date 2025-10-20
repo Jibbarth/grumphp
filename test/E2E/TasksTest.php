@@ -6,7 +6,7 @@ namespace GrumPHPTest\E2E;
 
 class TasksTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_can_configure_a_task_under_an_alias()
     {
         $this->initializeGitInRootDir();
@@ -21,7 +21,7 @@ class TasksTest extends AbstractE2ETestCase
         $this->runGrumphp($this->rootDir);
     }
 
-    /** @test */
+    #[Test]
     function it_can_resolve_task_config_With_env_vars()
     {
         $this->initializeGitInRootDir();

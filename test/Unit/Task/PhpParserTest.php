@@ -31,7 +31,7 @@ class PhpParserTest extends AbstractTaskTestCase
         return new PhpParser($this->parser->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
