@@ -7,10 +7,12 @@ namespace GrumPHPTest\Unit\Task\Git;
 use Gitonomy\Git\Exception\ProcessException;
 use GrumPHP\Git\GitRepository;
 use GrumPHP\Task\Git\BranchName;
+use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractTaskTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -189,6 +191,9 @@ class BranchNameTest extends AbstractTaskTestCase
 
     public static function provideSkipsOnStuff(): iterable
     {
-        return [];
+        // BranchName task doesn't have skip conditions, so skip this test
+        if (false) {
+            yield;
+        }
     }
 }

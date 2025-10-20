@@ -33,7 +33,7 @@ abstract class AbstractTaskTestCase extends TestCase
     abstract public function provideRunContexts(): iterable;
     abstract public function provideFailsOnStuff(): iterable;
     abstract public function providePassesOnStuff(): iterable;
-    abstract public function provideSkipsOnStuff(): iterable;
+    abstract public static function provideSkipsOnStuff(): iterable;
 
     protected function setUp(): void
     {
@@ -132,10 +132,8 @@ abstract class AbstractTaskTestCase extends TestCase
         self::assertSame('', $result->getMessage());
     }
 
-    /**
-     * @test
-     * @dataProvider provideSkipsOnStuff
-     */
+    #[DataProvider('provideSkipsOnStuff')]
+    #[Test]
     public function it_skips_on_stuff(
         array $config,
         ContextInterface $context,
