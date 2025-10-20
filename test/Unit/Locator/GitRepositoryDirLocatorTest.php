@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Locator;
 use GrumPHP\Locator\GitRepositoryDirLocator;
 use GrumPHP\Util\Filesystem;
 use GrumPHPTest\Symfony\FilesystemTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GitRepositoryDirLocatorTest extends FilesystemTestCase
 {

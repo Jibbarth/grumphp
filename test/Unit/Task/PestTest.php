@@ -33,71 +33,71 @@ class PestTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('pest', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('pest', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('pest', $this->mockProcess(0));
+                $this->mockProcessBuilder('pest', self::mockProcess(0));
             }
         ];
         yield 'no-files-but-always-execute' => [
             [
                 'always_execute' => true,
             ],
-            $this->mockContext(RunContext::class, []),
+            self::mockContext(RunContext::class, []),
             function () {
-                $this->mockProcessBuilder('pest', $this->mockProcess(0));
+                $this->mockProcessBuilder('pest', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'pest',
             []
         ];
@@ -105,7 +105,7 @@ class PestTest extends AbstractExternalTaskTestCase
             [
                 'config_file' => 'config.xml',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'pest',
             [
                 '--configuration=config.xml',
@@ -115,7 +115,7 @@ class PestTest extends AbstractExternalTaskTestCase
             [
                 'testsuite' => 'suite',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'pest',
             [
                 '--testsuite=suite',
@@ -125,7 +125,7 @@ class PestTest extends AbstractExternalTaskTestCase
             [
                 'group' => ['group1','group2',],
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'pest',
             [
                 '--group=group1,group2',

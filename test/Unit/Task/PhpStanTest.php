@@ -37,44 +37,44 @@ class PhpStanTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('phpstan', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('phpstan', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('phpstan', $this->mockProcess(0));
+                $this->mockProcessBuilder('phpstan', self::mockProcess(0));
             }
         ];
 
@@ -82,46 +82,46 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'force_patterns' => ['file.txt'],
             ],
-            $this->mockContext(RunContext::class, ['file.txt']),
+            self::mockContext(RunContext::class, ['file.txt']),
             function () {
-                $this->mockProcessBuilder('phpstan', $this->mockProcess(0));
+                $this->mockProcessBuilder('phpstan', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaphpfile.txt']),
+            self::mockContext(RunContext::class, ['notaphpfile.txt']),
             function () {}
         ];
         yield 'no-files-after-ignore-patterns' => [
             [
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.php']),
+            self::mockContext(RunContext::class, ['test/file.php']),
             function () {}
         ];
         yield 'no-files-with-use-grumphp-paths' => [
             [
                 'use_grumphp_paths' => true,
             ],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'phpstan',
             [
                 'analyse',
@@ -136,7 +136,7 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'autoload_file' => 'autoload.php'
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'phpstan',
             [
                 'analyse',
@@ -152,7 +152,7 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'configuration' => 'configurationfile'
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'phpstan',
             [
                 'analyse',
@@ -168,7 +168,7 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'memory_limit' => '250MB'
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'phpstan',
             [
                 'analyse',
@@ -184,7 +184,7 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'level' => 9001,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'phpstan',
             [
                 'analyse',
@@ -200,7 +200,7 @@ class PhpStanTest extends AbstractExternalTaskTestCase
             [
                 'use_grumphp_paths' => false,
             ],
-            $this->mockContext(RunContext::class, []),
+            self::mockContext(RunContext::class, []),
             'phpstan',
             [
                 'analyse',

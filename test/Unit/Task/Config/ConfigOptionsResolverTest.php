@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Task\Config;
 
 use GrumPHP\Task\Config\ConfigOptionsResolver;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -9,6 +9,8 @@ use GrumPHP\Locator\EnrichedGuessedPathsFromDotEnvLocator;
 use GrumPHP\Util\ComposerFile;
 use GrumPHP\Util\Filesystem;
 use GrumPHPTest\Symfony\FilesystemTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnrichedGuessedPathsFromDotEnvLocatorTest extends FilesystemTestCase
 {
@@ -47,15 +49,15 @@ class EnrichedGuessedPathsFromDotEnvLocatorTest extends FilesystemTestCase
         callable $input,
         callable $expectedOutput
     ): void {
-        $createSystem($this->filesystem, $this->workspace);
-        $previous = $input($this->workspace);
+        \Closure::bind($createSystem, $this)($this->filesystem, $this->workspace);
+        $previous = \Closure::bind($input, $this)($this->workspace);
         $guessed = $this->guesser->locate($previous);
 
         self::assertNotSame($previous, $guessed);
-        self::assertEquals($expectedOutput($this->workspace), $guessed);
+        self::assertEquals(\Closure::bind($expectedOutput, $this)($this->workspace), $guessed);
     }
 
-    public function provideTestCases(): \Generator
+    public static function provideTestCases(): \Generator
     {
         // A dirty configuration callback to make cwd etc work.
         $configure = function (string $workspace) {
@@ -64,7 +66,7 @@ class EnrichedGuessedPathsFromDotEnvLocatorTest extends FilesystemTestCase
 
         yield 'keep-paths' => [
             function (Filesystem $filesystem, string $workspace) use ($configure) {
-                $configure($workspace);
+                \Closure::bind($configure, $this)($workspace);
             },
             $input = function (string $workspace) {
                 return new GuessedPaths(
@@ -83,7 +85,7 @@ class EnrichedGuessedPathsFromDotEnvLocatorTest extends FilesystemTestCase
 
         yield 'overwritten-config' => [
             function (Filesystem $filesystem, string $workspace) use ($configure) {
-                $configure($workspace);
+                \Closure::bind($configure, $this)($workspace);
 
                 $_SERVER['GRUMPHP_PROJECT_DIR'] = $this->validSlash('project');
                 $_SERVER['GRUMPHP_GIT_WORKING_DIR'] = $this->validSlash('git');

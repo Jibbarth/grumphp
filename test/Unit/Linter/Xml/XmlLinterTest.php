@@ -5,6 +5,8 @@ namespace GrumPHPTest\Unit\Linter\Xml;
 use GrumPHP\Collection\LintErrorsCollection;
 use GrumPHP\Linter\Xml\XmlLinter;
 use GrumPHP\Linter\Xml\XmlLintError;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SplFileInfo;

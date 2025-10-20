@@ -44,67 +44,67 @@ class ParatestTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('paratest', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('paratest', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('paratest', $this->mockProcess(0));
+                $this->mockProcessBuilder('paratest', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaphpfile.txt']),
+            self::mockContext(RunContext::class, ['notaphpfile.txt']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             []
         ];
@@ -112,7 +112,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'processes' => 10,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--processes=10',
@@ -122,7 +122,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'functional' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '-f',
@@ -132,7 +132,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'configuration' => 'phpunit.xml',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--configuration=phpunit.xml',
@@ -142,7 +142,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'runner' => 'WrapperRunner',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--runner=WrapperRunner',
@@ -152,7 +152,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'coverage-clover' => 'clover.xml',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--coverage-clover=clover.xml',
@@ -162,7 +162,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'coverage-html' => 'coverage.html',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--coverage-html=coverage.html',
@@ -172,7 +172,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'coverage-php' => 'coverage.php',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--coverage-php=coverage.php',
@@ -182,7 +182,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'coverage-xml' => 'coverage.xml',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--coverage-xml=coverage.xml',
@@ -192,7 +192,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'testsuite' => 'testsuite',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--testsuite=testsuite',
@@ -202,7 +202,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'verbose' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--verbose',
@@ -212,7 +212,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             [
                 'group' => ['group1', 'group2'],
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
                 '--group=group1,group2',

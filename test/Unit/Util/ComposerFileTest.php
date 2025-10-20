@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Util;
 
 use GrumPHP\Util\ComposerFile;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ComposerFileTest extends TestCase

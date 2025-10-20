@@ -17,6 +17,8 @@ namespace GrumPHPTest\Unit\Locator {
     use GrumPHP\Locator\GuessedPathsLocator;
     use GrumPHP\Util\ComposerFile;
     use GrumPHP\Util\Filesystem;
+    use PHPUnit\Framework\Attributes\DataProvider;
+    use PHPUnit\Framework\Attributes\Test;
     use Prophecy\Argument;
     use Prophecy\PhpUnit\ProphecyTrait;
     use Prophecy\Prophecy\ObjectProphecy;
@@ -77,15 +79,15 @@ namespace GrumPHPTest\Unit\Locator {
         #[Test]
         public function it_can_guess_paths(
             callable $createSystem,
-            callable $createExpexted,
+            callable $createExpected,
             ?string $cliConfigFile
         ): void {
-            $createSystem($this->filesystem, $this->workspace);
+            \Closure::bind($createSystem, $this)($this->filesystem, $this->workspace);
             $guessed = $this->guesser->locate($cliConfigFile ? $this->path($cliConfigFile) : null);
-            $this->assertEquals($createExpexted($this->workspace), $guessed);
+            $this->assertEquals(\Closure::bind($createExpected, $this)($this->workspace), $guessed);
         }
 
-        public function provideTestCases(): \Generator
+        public static function provideTestCases(): \Generator
         {
             // A dirty configuration callback to make cwd etc work.
             $configure = function (string $workspace) {
@@ -95,7 +97,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
                 },
                 function (string $workspace) {
                     return new GuessedPaths(
@@ -113,7 +115,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
                     $filesystem->dumpFile($this->path('grumphp.yaml.dist'), 'parameters:');
                 },
                 function (string $workspace) {
@@ -132,7 +134,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
                     $filesystem->dumpFile($this->path('grumphp.yml'), 'parameters:');
                     $filesystem->dumpFile($this->path('grumphp.yml.dist'), 'parameters:');
                 },
@@ -152,7 +154,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
                     $location = 'vendor/somefile/verynotdiscoverable';
                     $filesystem->mkdir($this->path($location));
                     $filesystem->dumpFile($this->path($location.'/grumphp.yml'), 'parameters:');
@@ -176,7 +178,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
 
                     $_SERVER['GRUMPHP_PROJECT_DIR'] = $this->validSlash('project');
                     $_SERVER['GRUMPHP_GIT_WORKING_DIR'] = $this->validSlash('git');
@@ -204,7 +206,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
 
                     $_SERVER['GRUMPHP_PROJECT_DIR'] = $this->path('project');
                     $_SERVER['GRUMPHP_GIT_WORKING_DIR'] = $this->path('git');
@@ -232,7 +234,7 @@ namespace GrumPHPTest\Unit\Locator {
 
             yield [
                 function (Filesystem $filesystem, string $workspace) use ($configure) {
-                    $configure($workspace);
+                    \Closure::bind($configure, $this)($workspace);
 
                     $_SERVER['GRUMPHP_COMPOSER_DIR'] = $this->path('composer');
 

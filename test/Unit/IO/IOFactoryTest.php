@@ -7,6 +7,7 @@ use GrumPHP\IO\GitHubActionsIO;
 use GrumPHP\IO\IOFactory;
 use OndraM\CiDetector\Ci\GitHubActions;
 use OndraM\CiDetector\CiDetector;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;

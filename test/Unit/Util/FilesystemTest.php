@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Util;
 
 use GrumPHP\Util\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use GrumPHPTest\Symfony\FilesystemTestCase;

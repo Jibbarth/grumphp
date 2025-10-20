@@ -44,31 +44,31 @@ class CloverCoverageTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'fileDoesntExist' => [
             [
                 'clover_file' => 'coverage.xml',
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(false);
             },
@@ -79,7 +79,7 @@ class CloverCoverageTest extends AbstractTaskTestCase
                 'clover_file' => 'coverage.xml',
                 'minimum_level' => 0,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
             },
@@ -90,7 +90,7 @@ class CloverCoverageTest extends AbstractTaskTestCase
                 'clover_file' => 'coverage.xml',
                 'minimum_level' => 100,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'coverage.xml'))->willReturn(
@@ -105,7 +105,7 @@ class CloverCoverageTest extends AbstractTaskTestCase
                 'minimum_level' => 50,
                 'target_level' => 70,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'coverage.xml'))->willReturn(
@@ -118,14 +118,14 @@ class CloverCoverageTest extends AbstractTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'levelReached' => [
             [
                 'clover_file' => 'coverage.xml',
                 'minimum_level' => 50,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'coverage.xml'))->willReturn(
@@ -139,7 +139,7 @@ class CloverCoverageTest extends AbstractTaskTestCase
                 'minimum_level' => 50,
                 'target_level' => 55,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'coverage.xml'))->willReturn(
@@ -149,14 +149,14 @@ class CloverCoverageTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'noMetricElements' => [
             [
                 'clover_file' => 'coverage.xml',
                 'minimum_level' => 50,
             ],
-            $this->mockContext(RunContext::class, ['coverage.xml']),
+            self::mockContext(RunContext::class, ['coverage.xml']),
             function () {
                 $this->filesystem->exists('coverage.xml')->willReturn(true);
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'coverage.xml'))->willReturn(

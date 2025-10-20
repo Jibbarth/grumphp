@@ -9,6 +9,8 @@ use GrumPHP\Util\ComposerFile;
 use GrumPHP\Util\Filesystem;
 use GrumPHP\Util\Paths;
 use GrumPHPTest\Symfony\FilesystemTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 class PathsTest extends FilesystemTestCase

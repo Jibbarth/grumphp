@@ -55,29 +55,29 @@ class YamlLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exception' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.yml']),
+            self::mockContext(RunContext::class, ['hello.yml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willThrow(new RuntimeException('nope'));
@@ -87,52 +87,52 @@ class YamlLintTest extends AbstractTaskTestCase
 
         yield 'lint-errors-on-one-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.yml']),
+            self::mockContext(RunContext::class, ['hello.yml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.yml'),
-                        $this->createLintError('hello.yml'),
+                        self::createLintError('hello.yml'),
+                        self::createLintError('hello.yml'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.yml'),
-                $this->createLintError('hello.yml'),
+                self::createLintError('hello.yml'),
+                self::createLintError('hello.yml'),
             ]))
         ];
 
         yield 'lint-errors-on-multiple-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.yml', 'world.yaml']),
+            self::mockContext(RunContext::class, ['hello.yml', 'world.yaml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.yml'),
-                        $this->createLintError('hello.yml'),
+                        self::createLintError('hello.yml'),
+                        self::createLintError('hello.yml'),
                     ])
                 );
                 $this->linter->lint($context->getFiles()[1])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('world.yaml'),
+                        self::createLintError('world.yaml'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.yml'),
-                $this->createLintError('hello.yml'),
-                $this->createLintError('world.yml'),
+                self::createLintError('hello.yml'),
+                self::createLintError('hello.yml'),
+                self::createLintError('world.yml'),
             ]))
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'no-lint-errors' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.yml']),
+            self::mockContext(RunContext::class, ['hello.yml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -140,7 +140,7 @@ class YamlLintTest extends AbstractTaskTestCase
         ];
         yield 'no-lint-errors-on-multiple-files' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.yml']),
+            self::mockContext(RunContext::class, ['hello.yml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -153,7 +153,7 @@ class YamlLintTest extends AbstractTaskTestCase
                 'parse_constant' => true,
                 'parse_custom_tags' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.yml']),
+            self::mockContext(RunContext::class, ['hello.yml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -163,7 +163,7 @@ class YamlLintTest extends AbstractTaskTestCase
             [
                 'ignore_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['src/hello.yml']),
+            self::mockContext(RunContext::class, ['src/hello.yml']),
             function (array $options) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint(Argument::cetera())->shouldNotBeCalled();
@@ -171,23 +171,23 @@ class YamlLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaymlfile.txt']),
+            self::mockContext(RunContext::class, ['notaymlfile.txt']),
             function () {}
         ];
         yield 'no-files-after-whitelist' => [
             [
                 'whitelist_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.yml']),
+            self::mockContext(RunContext::class, ['test/file.yml']),
             function () {}
         ];
     }
@@ -200,7 +200,7 @@ class YamlLintTest extends AbstractTaskTestCase
         $this->linter->setParseConstants($options['parse_constant'])->shouldBeCalled();
     }
 
-    private function createLintError(string $fileName): YamlLintError
+    private static function createLintError(string $fileName): YamlLintError
     {
         return new YamlLintError(LintError::TYPE_ERROR, 'error', $fileName);
     }

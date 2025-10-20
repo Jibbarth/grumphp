@@ -9,6 +9,7 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHPTest\Helpers\ContextMocks;
 use GrumPHPTest\Helpers\TaskMocks;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

@@ -43,67 +43,67 @@ class TesterTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['helloTest.php']),
+            self::mockContext(RunContext::class, ['helloTest.php']),
             function () {
-                $this->mockProcessBuilder('tester', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('tester', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['helloTest.php']),
+            self::mockContext(RunContext::class, ['helloTest.php']),
             function () {
-                $this->mockProcessBuilder('tester', $this->mockProcess(0));
+                $this->mockProcessBuilder('tester', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-name_match' => [
             [],
-            $this->mockContext(RunContext::class, ['notatestfile.php']),
+            self::mockContext(RunContext::class, ['notatestfile.php']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -113,7 +113,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'path' => 'src',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 'src',
@@ -123,7 +123,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'always_execute' => true,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -133,7 +133,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'always_execute' => true,
             ],
-            $this->mockContext(RunContext::class, []),
+            self::mockContext(RunContext::class, []),
             'tester',
             [
                 '.',
@@ -143,7 +143,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'log' => 'logfile.txt',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -155,7 +155,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'show_information_about_skipped_tests' => true,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -166,7 +166,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'stop_on_fail' => true,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -177,7 +177,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'parallel_processes' => 2,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -189,7 +189,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'output' => 'console',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -201,7 +201,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'temp' => '/tmp',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -213,7 +213,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'setup' => 'setup.php',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -225,7 +225,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'colors' => 4,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -237,7 +237,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'coverage' => 'coverageFile',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -249,7 +249,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'coverage_src' => 'coverageSrdFile',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -261,7 +261,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'php_ini_configuration_path' => 'customPhpIniFile',
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',
@@ -273,7 +273,7 @@ class TesterTest extends AbstractExternalTaskTestCase
             [
                 'default_php_ini_configuration' => true,
             ],
-            $this->mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
+            self::mockContext(RunContext::class, ['helloTest.php', 'hello2Test.php']),
             'tester',
             [
                 '.',

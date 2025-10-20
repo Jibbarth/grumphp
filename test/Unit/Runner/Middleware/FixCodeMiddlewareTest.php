@@ -9,6 +9,7 @@ use GrumPHP\Fixer\FixerUpper;
 use GrumPHP\Runner\Middleware\FixCodeMiddleware;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 

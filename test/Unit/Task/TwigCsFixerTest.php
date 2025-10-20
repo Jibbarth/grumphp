@@ -37,31 +37,31 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.twig']),
+            self::mockContext(RunContext::class, ['hello.twig']),
             function () {
-                $this->mockProcessBuilder('twig-cs-fixer', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('twig-cs-fixer', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope',
@@ -69,44 +69,44 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.twig']),
+            self::mockContext(RunContext::class, ['hello.twig']),
             function () {
-                $this->mockProcessBuilder('twig-cs-fixer', $this->mockProcess(0));
+                $this->mockProcessBuilder('twig-cs-fixer', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {
             }
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notatwigfile.php']),
+            self::mockContext(RunContext::class, ['notatwigfile.php']),
             function () {
             }
         ];
         yield 'no-files-in-paths' => [
             ['paths' => ['src']],
-            $this->mockContext(RunContext::class, ['other/hello.twig']),
+            self::mockContext(RunContext::class, ['other/hello.twig']),
             function () {
             }
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -118,7 +118,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'paths' => ['src', 'templates'],
             ],
-            $this->mockContext(RunContext::class, ['templates/hello.twig', 'templates/hello2.twig']),
+            self::mockContext(RunContext::class, ['templates/hello.twig', 'templates/hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -132,7 +132,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'paths' => ['templates'],
             ],
-            $this->mockContext(GitPreCommitContext::class, ['templates/hello.twig', 'templates/hello2.twig', 'other/hello2.twig']),
+            self::mockContext(GitPreCommitContext::class, ['templates/hello.twig', 'templates/hello2.twig', 'other/hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -146,7 +146,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'level' => 'warning',
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -159,7 +159,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config' => 'twig-cs-fixer.php',
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -172,7 +172,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'no-cache' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -185,7 +185,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'verbose' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -198,7 +198,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'report' => 'json',
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -210,7 +210,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'report' => null,
             ],
-            $this->mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
+            self::mockContext(RunContext::class, ['hello.twig', 'hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',
@@ -225,7 +225,7 @@ class TwigCsFixerTest extends AbstractExternalTaskTestCase
                 'no-cache' => true,
                 'verbose' => true,
             ],
-            $this->mockContext(RunContext::class, ['templates/hello.twig', 'templates/hello2.twig']),
+            self::mockContext(RunContext::class, ['templates/hello.twig', 'templates/hello2.twig']),
             'twig-cs-fixer',
             [
                 'lint',

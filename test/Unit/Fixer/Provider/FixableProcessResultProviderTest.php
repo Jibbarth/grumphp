@@ -7,6 +7,7 @@ namespace GrumPHPTest\Unit\Fixer\Provider;
 use GrumPHP\Fixer\Provider\FixableProcessResultProvider;
 use GrumPHP\Runner\FixableTaskResult;
 use GrumPHP\Runner\TaskResultInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -20,7 +21,7 @@ class FixableProcessResultProviderTest extends TestCase
     #[Test]
     public function it_can_build_a_fixable_task_result(): void
     {
-        $process = $this->mockProcess($command = 'command');
+        $process = self::mockProcess($command = 'command');
         $taskResult = $this->mockTaskResult();
 
         $result = FixableProcessResultProvider::provide($taskResult, static function () use ($process) {

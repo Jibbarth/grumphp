@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Runner\Parallel;
 use Amp\NullCancellation;
 use Amp\Sync\Channel;
 use GrumPHP\Runner\Parallel\SerializedClosureTask;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 

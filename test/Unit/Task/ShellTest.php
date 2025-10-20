@@ -61,33 +61,33 @@ class ShellTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1On1Task' => [
             [
                 'scripts' => ['phpunit']
             ],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('sh', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('sh', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
@@ -99,47 +99,47 @@ class ShellTest extends AbstractExternalTaskTestCase
                     'phpspec'
                 ]
             ],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('sh', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('sh', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'.PHP_EOL.'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'noScript' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('sh', $this->mockProcess(0));
+                $this->mockProcessBuilder('sh', self::mockProcess(0));
             }
         ];
         yield 'exitCode0On1Task' => [
             [
                 'scripts' => ['phpunit']
             ],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('sh', $this->mockProcess(0));
+                $this->mockProcessBuilder('sh', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-ignore-patterns' => [
             [
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.php']),
+            self::mockContext(RunContext::class, ['test/file.php']),
             function() {
             }
         ];
@@ -147,24 +147,24 @@ class ShellTest extends AbstractExternalTaskTestCase
             [
                 'whitelist_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['config/file.php']),
+            self::mockContext(RunContext::class, ['config/file.php']),
             function() {
             }
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notatwigfile.txt']),
+            self::mockContext(RunContext::class, ['notatwigfile.txt']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'string-script' => [
             [
                 'scripts' => ['phpunit']
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'sh',
             [
                 'phpunit',
@@ -175,7 +175,7 @@ class ShellTest extends AbstractExternalTaskTestCase
             [
                 'scripts' => [['phpunit', 'tests']]
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'sh',
             [
                 'phpunit',

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\E2E;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class TasksTest extends AbstractE2ETestCase
 {
     #[Test]

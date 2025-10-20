@@ -14,6 +14,7 @@ use GrumPHP\Runner\TaskResultInterface;
 use GrumPHP\Task\Config\Metadata;
 use GrumPHP\Task\Config\TaskConfig;
 use GrumPHP\Task\TaskInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -56,7 +57,7 @@ class FixerUpperTest extends TestCase
         });
         $this->IO->isVerbose()->willReturn(false);
         $this->IO->write(Argument::cetera())->willReturn(null);
-        $this->style->warning(Argument::cetera())->willReturn(null);
+        $this->style->warning(Argument::cetera());
 
         $this->createFixerUpper(new FixerConfig(true, true));
     }

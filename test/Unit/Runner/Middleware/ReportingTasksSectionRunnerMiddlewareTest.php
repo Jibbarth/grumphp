@@ -9,6 +9,7 @@ use GrumPHP\Runner\Middleware\ReportingTasksSectionRunnerMiddleware;
 use GrumPHP\Runner\Reporting\TaskResultsReporter;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;

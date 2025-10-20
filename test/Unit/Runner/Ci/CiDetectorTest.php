@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Runner\Ci;
 
 use GrumPHP\Runner\Ci\CiDetector;
 use OndraM\CiDetector\CiDetector as RealCiDetector;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;

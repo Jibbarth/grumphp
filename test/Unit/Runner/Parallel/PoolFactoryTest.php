@@ -8,6 +8,7 @@ use Amp\Parallel\Worker\ContextWorkerPool;
 use Amp\Parallel\Worker\WorkerPool;
 use GrumPHP\Configuration\Model\ParallelConfig;
 use GrumPHP\Runner\Parallel\PoolFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PoolFactoryTest extends TestCase

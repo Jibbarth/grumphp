@@ -10,6 +10,7 @@ use GrumPHP\Runner\Middleware\RunnerMiddlewareInterface;
 use GrumPHP\Runner\MiddlewareStack;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Task\Context\RunContext;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;

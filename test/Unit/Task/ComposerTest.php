@@ -47,31 +47,31 @@ class ComposerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('composer', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
@@ -80,9 +80,9 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_local_repository' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'composer.json'))->willReturn(
                     json_encode([
                         'repositories' => [
@@ -97,9 +97,9 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_local_repository' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'composer.json'))->willReturn(
                     json_encode([
                         'repositories' => [
@@ -113,22 +113,22 @@ class ComposerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
             }
         ];
         yield 'noRepoInfo' => [
             [
                 'no_local_repository' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'composer.json'))->willReturn(
                     json_encode([
                         'name' => 'my/package',
@@ -140,9 +140,9 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_local_repository' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'composer.json'))->willReturn(
                     json_encode([
                         'repositories' => [
@@ -156,9 +156,9 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_local_repository' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json']),
+            self::mockContext(RunContext::class, ['composer.json']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->filesystem->readFromFileInfo(Argument::which('getBasename', 'composer.json'))->willReturn(
                     json_encode([
                         'repositories' => [
@@ -170,25 +170,25 @@ class ComposerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-no-composer-json' => [
             [],
-            $this->mockContext(RunContext::class, ['notaphpfile.txt']),
+            self::mockContext(RunContext::class, ['notaphpfile.txt']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',
@@ -197,7 +197,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
         ];
         yield 'lock-only' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.lock']),
+            self::mockContext(RunContext::class, ['composer.lock']),
             'composer',
             [
                 'validate',
@@ -208,7 +208,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_check_all' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',
@@ -220,7 +220,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'no_check_lock' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',
@@ -232,7 +232,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'with_dependencies' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',
@@ -244,7 +244,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'strict' => true,
             ],
-            $this->mockContext(RunContext::class, ['composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',
@@ -256,7 +256,7 @@ class ComposerTest extends AbstractExternalTaskTestCase
             [
                 'file' => 'src/composer.json',
             ],
-            $this->mockContext(RunContext::class, ['src/composer.json', 'hello2.php']),
+            self::mockContext(RunContext::class, ['src/composer.json', 'hello2.php']),
             'composer',
             [
                 'validate',

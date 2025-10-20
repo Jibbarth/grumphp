@@ -16,6 +16,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Prophet;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 
@@ -30,9 +31,9 @@ abstract class AbstractTaskTestCase extends TestCase
 
     abstract protected function provideTask(): TaskInterface;
     abstract public static function provideConfigurableOptions(): iterable;
-    abstract public function provideRunContexts(): iterable;
-    abstract public function provideFailsOnStuff(): iterable;
-    abstract public function providePassesOnStuff(): iterable;
+    abstract public static function provideRunContexts(): iterable;
+    abstract public static function provideFailsOnStuff(): iterable;
+    abstract public static function providePassesOnStuff(): iterable;
     abstract public static function provideSkipsOnStuff(): iterable;
 
     protected function setUp(): void
@@ -162,10 +163,10 @@ abstract class AbstractTaskTestCase extends TestCase
         );
     }
 
-    protected function mockContext(string $class = ContextInterface::class, array $files = []): ContextInterface
+    protected static function mockContext(string $class = ContextInterface::class, array $files = []): ContextInterface
     {
         /** @var ContextInterface|ObjectProphecy $context */
-        $context = $this->prophesize($class);
+        $context = (new Prophet())->prophesize($class);
         $context->getFiles()->willReturn(
             new FilesCollection(
                 array_map(
