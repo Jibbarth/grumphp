@@ -12,7 +12,7 @@ tag:
 	sed -i '' -e "s/APP_VERSION = '.*'/APP_VERSION = '$(TAG)'/" src/Console/ApplicationConfigurator.php
 	php -l src/Console/ApplicationConfigurator.php
 	git add -A
-	git commit -m '$(TAG) release'
+	git commit -m '$(TAG) release' -n
 	git tag -s 'v$(TAG)' -m'Version $(TAG)'
 
 lock:
