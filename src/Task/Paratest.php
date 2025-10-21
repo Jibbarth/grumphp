@@ -74,7 +74,7 @@ class Paratest extends AbstractExternalTask
 
         $arguments = $this->processBuilder->createArgumentsForCommand('paratest');
         $arguments->addOptionalArgument('--processes=%s', $config['processes']);
-        $arguments->addOptionalArgument('-f', $config['functional']);
+        $arguments->addOptionalArgument('--functional', $config['functional']);
         $arguments->addOptionalArgument('--configuration=%s', $config['configuration']);
         $arguments->addOptionalArgument('--phpunit=%s', $config['phpunit']);
         $arguments->addOptionalArgument('--runner=%s', $config['runner']);

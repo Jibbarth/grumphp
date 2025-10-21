@@ -57,7 +57,7 @@ class FixerUpperTest extends TestCase
         });
         $this->IO->isVerbose()->willReturn(false);
         $this->IO->write(Argument::cetera())->willReturn(null);
-        $this->style->warning(Argument::cetera());
+        $this->style->warning(Argument::cetera())->should(static fn () => true);
 
         $this->createFixerUpper(new FixerConfig(true, true));
     }

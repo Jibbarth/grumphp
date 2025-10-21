@@ -1,2 +1,2 @@
 @echo off
-php %~dp0\composer-normalize %*
+php %~dp0\composer-normalize.phar %*

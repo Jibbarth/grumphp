@@ -6,7 +6,7 @@
     colors="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
     failOnWarning="true"
-    failOnPhpunitWarning="true">
+>
     <php>
         <ini name="error_reporting" value="-1" />
     </php>

@@ -1,2 +1,2 @@
 @echo off
-php %~dp0\psalm %*
+php %~dp0\psalm.phar %*

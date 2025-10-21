@@ -131,7 +131,8 @@ class CloverCoverage implements TaskInterface
             return TaskResult::createSkipped($this, $context);
         }
 
-        $coverage = round(($checkedElements / $totalElements) * 100, 2);
+        $coverage = (float) ($checkedElements / $totalElements);
+        $coverage = round($coverage * 100.0, 2);
 
         if ($coverage < $minimumLevel) {
             $message = sprintf(
@@ -157,7 +158,7 @@ class CloverCoverage implements TaskInterface
     }
 
     /**
-     * @return array{'totalElements': int, 'checkedElements': int}
+     * @return array{totalElements: int, checkedElements: int}
      *
      * @throws FileNotFoundException
      */

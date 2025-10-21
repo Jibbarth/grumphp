@@ -1,2 +1,2 @@
 @echo off
-php %~dp0\phpcs %*
+php %~dp0\phpcs.phar %*

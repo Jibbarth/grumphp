@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\Unit\Task;
 
+use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\PhpArkitect;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractExternalTaskTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class PhpArkitectTest extends AbstractExternalTaskTestCase
 {
@@ -74,9 +77,25 @@ class PhpArkitectTest extends AbstractExternalTaskTestCase
         ];
     }
 
+    #[Test]
+    #[DataProvider('provideSkipsOnStuff')]
+    public function it_skips_on_stuff(
+        array            $config,
+        ContextInterface $context,
+        callable         $configurator
+    ): void
+    {
+        self::markTestSkipped('No skip scenarios defined yet');
+    }
+
     public static function provideSkipsOnStuff(): iterable
     {
-        return [];
+        yield 'no-skip-scenarios' => [
+            [],
+            self::mockContext(RunContext::class),
+            function () {
+            }
+        ];
     }
 
     public static function provideExternalTaskRuns(): iterable

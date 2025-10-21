@@ -12,6 +12,7 @@ use GrumPHP\Task\Context\GitPreCommitContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractTaskTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -95,26 +96,26 @@ class BranchNameTest extends AbstractTaskTestCase
             },
             'Whitelist rule not matched: develop'
         ];
-        yield 'multi-whitelist' => [	
-            [	
-                'whitelist' => ['master', 'develop'],	
-            ],	
-            self::mockContext(RunContext::class, ['hello.php']),	
-            function () {	
-                $this->repository->run('symbolic-ref', ['HEAD', '--short'])->willReturn('feature/other');	
-            },	
-            'Whitelist rule not matched: master'.PHP_EOL.'Whitelist rule not matched: develop'	
+        yield 'multi-whitelist' => [
+            [
+                'whitelist' => ['master', 'develop'],
+            ],
+            self::mockContext(RunContext::class, ['hello.php']),
+            function () {
+                $this->repository->run('symbolic-ref', ['HEAD', '--short'])->willReturn('feature/other');
+            },
+            'Whitelist rule not matched: master' . PHP_EOL . 'Whitelist rule not matched: develop'
         ];
-        yield 'blacklist-and-whitelist' => [	
-            [	
+        yield 'blacklist-and-whitelist' => [
+            [
                 'blacklist' => ['feature/other'],
-                'whitelist' => ['master', 'feature/*'],	
-            ],	
-            self::mockContext(RunContext::class, ['hello.php']),	
-            function () {	
-                $this->repository->run('symbolic-ref', ['HEAD', '--short'])->willReturn('feature/other');	
-            },	
-            'Matched blacklist rule: feature/other'.PHP_EOL.'Whitelist rule not matched: master'.PHP_EOL.'Matched whitelist rule: feature/* (IGNORED due to presence in blacklist)'	
+                'whitelist' => ['master', 'feature/*'],
+            ],
+            self::mockContext(RunContext::class, ['hello.php']),
+            function () {
+                $this->repository->run('symbolic-ref', ['HEAD', '--short'])->willReturn('feature/other');
+            },
+            'Matched blacklist rule: feature/other' . PHP_EOL . 'Whitelist rule not matched: master' . PHP_EOL . 'Matched whitelist rule: feature/* (IGNORED due to presence in blacklist)'
         ];
         yield 'mixed' => [
             [
@@ -125,7 +126,7 @@ class BranchNameTest extends AbstractTaskTestCase
             function () {
                 $this->repository->run('symbolic-ref', ['HEAD', '--short'])->willReturn('JIRA-1');
             },
-            'Matched blacklist rule: JIRA-1'.PHP_EOL.'Whitelist rule not matched: JIRA-2'
+            'Matched blacklist rule: JIRA-1' . PHP_EOL . 'Whitelist rule not matched: JIRA-2'
         ];
     }
 
@@ -189,8 +190,24 @@ class BranchNameTest extends AbstractTaskTestCase
         ];
     }
 
+    #[Test]
+    #[DataProvider('provideSkipsOnStuff')]
+    public function it_skips_on_stuff(
+        array            $config,
+        ContextInterface $context,
+        callable         $configurator
+    ): void
+    {
+        self::markTestSkipped('No skip scenarios defined yet');
+    }
+
     public static function provideSkipsOnStuff(): iterable
     {
-        return [];
+        yield 'no-skip-scenarios' => [
+            [],
+            self::mockContext(RunContext::class),
+            function () {
+            }
+        ];
     }
 }

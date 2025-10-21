@@ -125,7 +125,7 @@ class ParatestTest extends AbstractExternalTaskTestCase
             self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'paratest',
             [
-                '-f',
+                '--functional',
             ]
         ];
         yield 'configuration' => [
