@@ -14,6 +14,7 @@ use GrumPHP\Runner\Middleware\EventDispatchingRunnerMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -40,7 +41,7 @@ class EventDispatchingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestC
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_should_dispatch_run_success_events(): void
     {
         $context = $this->createRunnerContext();
@@ -71,7 +72,7 @@ class EventDispatchingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestC
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_should_dispatch_run_failed_events(): void
     {
         $context = $this->createRunnerContext();

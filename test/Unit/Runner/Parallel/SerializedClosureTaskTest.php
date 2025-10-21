@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Runner\Parallel;
 use Amp\NullCancellation;
 use Amp\Sync\Channel;
 use GrumPHP\Runner\Parallel\SerializedClosureTask;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -13,7 +14,7 @@ class SerializedClosureTaskTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_run_serialized_closure(): void
     {
         $task = SerializedClosureTask::fromClosure(fn () => 'hello world');

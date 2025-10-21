@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\E2E;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class SpecialGitStructuresTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_runs_inside_a_submodule()
     {
         $subModule = $this->mkdir('submodule');
@@ -27,7 +29,7 @@ class SpecialGitStructuresTest extends AbstractE2ETestCase
         $this->runGrumphp($submoduleInMain);
     }
 
-    /** @test */
+    #[Test]
     function it_handles_partial_commits()
     {
         $this->initializeGitInRootDir();

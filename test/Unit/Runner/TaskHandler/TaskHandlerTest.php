@@ -13,6 +13,7 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -22,7 +23,7 @@ class TaskHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_has_a_default_fallback_middleware(): void
     {
         $stack = new TaskHandler();
@@ -34,7 +35,7 @@ class TaskHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_run_middlewares_in_a_stack(): void
     {
         $task = $this->createTask();

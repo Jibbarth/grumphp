@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\E2E;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class ExtensionsTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_can_configure_an_extension()
     {
         $this->initializeGitInRootDir();

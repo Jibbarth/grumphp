@@ -9,6 +9,7 @@ use GrumPHP\Runner\StopOnFailure;
 use GrumPHP\Runner\TaskHandler\Middleware\StopOnFailureTaskHandlerMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Test\Runner\AbstractTaskHandlerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 class StopOnFailureTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewareTestCase
@@ -22,7 +23,7 @@ class StopOnFailureTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewa
         $this->middleware = new StopOnFailureTaskHandlerMiddleware();
     }
 
-    /** @test */
+    #[Test]
     public function it_decides_if_a_result_should_stop_task_execition(): void
     {
         $stopOnFailure = StopOnFailure::createFromConfig(

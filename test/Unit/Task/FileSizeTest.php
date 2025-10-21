@@ -10,6 +10,7 @@ use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\FileSize;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractTaskTestCase;
+use Prophecy\Prophet;
 use Symfony\Component\Finder\SplFileInfo;
 
 class FileSizeTest extends AbstractTaskTestCase
@@ -19,7 +20,7 @@ class FileSizeTest extends AbstractTaskTestCase
         return new FileSize();
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -37,31 +38,31 @@ class FileSizeTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'single-invalid-filesizes' => [
             [],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('file1.php', 6),
-                $this->mockFile('file2.php', 12),
+            self::mockContext(RunContext::class, [
+                self::mockFile('file1.php', 6),
+                self::mockFile('file2.php', 12),
             ]),
             function (array $options, ContextInterface $context) {
             },
@@ -70,9 +71,9 @@ class FileSizeTest extends AbstractTaskTestCase
         ];
         yield 'invalid-filesizes' => [
             [],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('file1.php', 12),
-                $this->mockFile('file2.php', 12),
+            self::mockContext(RunContext::class, [
+                self::mockFile('file1.php', 12),
+                self::mockFile('file2.php', 12),
             ]),
             function (array $options, ContextInterface $context) {
             },
@@ -84,9 +85,9 @@ class FileSizeTest extends AbstractTaskTestCase
             [
                 'max_size' => '5M'
             ],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('file1.php', 12),
-                $this->mockFile('file2.php', 12),
+            self::mockContext(RunContext::class, [
+                self::mockFile('file1.php', 12),
+                self::mockFile('file2.php', 12),
             ]),
             function (array $options, ContextInterface $context) {
             },
@@ -96,13 +97,13 @@ class FileSizeTest extends AbstractTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'valid-filesizes' => [
             [],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('file1.php', 6),
-                $this->mockFile('file2.php', 6),
+            self::mockContext(RunContext::class, [
+                self::mockFile('file1.php', 6),
+                self::mockFile('file2.php', 6),
             ]),
             function () {
             }
@@ -111,34 +112,34 @@ class FileSizeTest extends AbstractTaskTestCase
             [
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('test/file.php', 2323, true),
+            self::mockContext(RunContext::class, [
+                self::mockFile('test/file.php', 2323, true),
             ]),
             function () {}
         ];
         yield 'dont-validate-symlinks' => [
             [],
-            $this->mockContext(RunContext::class, [
-                $this->mockFile('file.php', 2323, true),
+            self::mockContext(RunContext::class, [
+                self::mockFile('file.php', 2323, true),
             ]),
             function () {}
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {
             },
         ];
     }
 
-    private function mockFile(string $file, int $megaBytes, $isSymlink = false): SplFileInfo
+    private static function mockFile(string $file, int $megaBytes, $isSymlink = false): SplFileInfo
     {
         /** @var SplFileInfo $mock */
-        $mock = $this->prophesize(SplFileInfo::class);
+        $mock = (new Prophet())->prophesize(SplFileInfo::class);
         $mock->getFilename()->willReturn($file);
         $mock->getRelativePathname()->willReturn($file);
         $mock->isLink()->willReturn($isSymlink);

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Util;
 
 use GrumPHP\Util\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use GrumPHPTest\Symfony\FilesystemTestCase;
@@ -24,13 +26,13 @@ class FilesystemTest extends FilesystemTestCase
         $this->filesystem = new Filesystem();
     }
 
-    /** @test */
+    #[Test]
     public function it_extends_symfony_filesystem(): void
     {
         $this->assertInstanceOf(SymfonyFilesystem::class, $this->filesystem);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_load_file_contents(): void
     {
         $file = $this->buildPath('helloworld.txt');
@@ -42,7 +44,7 @@ class FilesystemTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_an_item_is_a_file(): void
     {
         $file = $this->buildPath('helloworld.txt');
@@ -55,7 +57,7 @@ class FilesystemTest extends FilesystemTestCase
         $this->assertFalse($this->filesystem->isFile($folder));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_load_file_paths(): void
     {
         $file = $this->buildPath('helloworld.txt');
@@ -67,7 +69,7 @@ class FilesystemTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_make_paths_absolute(): void
     {
         $file = $this->buildPath($fileName = 'somefile.txt');
@@ -77,20 +79,16 @@ class FilesystemTest extends FilesystemTestCase
         $this->assertSame($this->filesystem->makePathAbsolute($file, $this->workspace), $file);
     }
 
-    /**
-     * @test
-     * @dataProvider provideRealpathTestcases
-     */
+    #[DataProvider('provideRealpathTestcases')]
+    #[Test]
     public function it_can_not_convert_paths_to_real_paths(string $path): void
     {
         $this->expectException(FileNotFoundException::class);
         $this->filesystem->realpath($this->buildPath($path));
     }
 
-    /**
-     * @test
-     * @dataProvider provideRealpathTestcases
-     */
+    #[DataProvider('provideRealpathTestcases')]
+    #[Test]
     public function it_can_convert_paths_to_real_paths(string $path, bool $isFile): void
     {
         $workspacePath = $this->buildPath($path);
@@ -102,7 +100,7 @@ class FilesystemTest extends FilesystemTestCase
         $this->{$assertion}($realpath);
     }
 
-    public function provideRealpathTestcases()
+    public static function provideRealpathTestcases()
     {
         return [
             [
@@ -124,7 +122,7 @@ class FilesystemTest extends FilesystemTestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function it_can_build_paths(): void
     {
         $this->assertSame(
@@ -133,10 +131,8 @@ class FilesystemTest extends FilesystemTestCase
         );
     }
 
-    /**
- * @test
- * @dataProvider provideGuessedFiles
- */
+    #[DataProvider('provideGuessedFiles')]
+    #[Test]
     public function it_can_guess_files(callable $setupWorkspace, array $paths, array $fileNames, string $expected)
     {
         $setupWorkspace($this->filesystem, $this->workspace);
@@ -155,10 +151,8 @@ class FilesystemTest extends FilesystemTestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider provideGuessedPaths
-     */
+    #[DataProvider('provideGuessedPaths')]
+    #[Test]
     public function it_can_guess_paths(callable $setupWorkspace, array $paths, string $expected)
     {
         $setupWorkspace($this->filesystem, $this->workspace);
@@ -176,7 +170,7 @@ class FilesystemTest extends FilesystemTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_knows_if_a_path_is_in_a_folder(): void
     {
         $this->filesystem->mkdir($projectDir = $this->buildPath('project'));
@@ -201,7 +195,7 @@ class FilesystemTest extends FilesystemTestCase
         $this->assertFalse($this->filesystem->isPathInFolder($this->workspace, $composerSubDir));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_backup_files(): void
     {
         $this->filesystem->dumpFile($file1 = $this->buildPath('file1.txt'), $originalContent = 'originalContent');
@@ -229,7 +223,7 @@ class FilesystemTest extends FilesystemTestCase
         self::assertTrue($this->filesystem->isFile($this->buildPath('file2.txt.'.md5($originalContent).'.backup')));
     }
 
-    public function provideGuessedFiles()
+    public static function provideGuessedFiles()
     {
         yield [
             static function(Filesystem $filesystem, string $workspace) {
@@ -337,7 +331,7 @@ class FilesystemTest extends FilesystemTestCase
         ];
     }
 
-    public function provideGuessedPaths()
+    public static function provideGuessedPaths()
     {
         yield [
             static function(Filesystem $filesystem, string $workspace) {

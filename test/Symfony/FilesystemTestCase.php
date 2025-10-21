@@ -18,7 +18,7 @@ namespace GrumPHPTest\Symfony;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class FilesystemTestCase extends TestCase
+abstract class FilesystemTestCase extends TestCase
 {
     private $umask;
 

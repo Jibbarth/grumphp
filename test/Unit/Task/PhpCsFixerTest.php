@@ -30,7 +30,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -48,31 +48,31 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('php-cs-fixer', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('php-cs-fixer', $process = self::mockProcess(1));
 
                 $this->formatter->resetCounter()->shouldBeCalled();
                 $this->formatter->format($process)->willReturn($message = 'message');
@@ -82,37 +82,37 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
                 $this->formatter->resetCounter()->shouldBeCalled();
-                $this->mockProcessBuilder('php-cs-fixer', $this->mockProcess(0));
+                $this->mockProcessBuilder('php-cs-fixer', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaphpfile.txt']),
+            self::mockContext(RunContext::class, ['notaphpfile.txt']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -125,7 +125,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'allow_risky' => true
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -139,7 +139,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'cache_file' => 'cachefile'
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -153,7 +153,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config' => 'config.php'
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -167,7 +167,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'rules' => ['foo', 'bar']
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -185,7 +185,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
                     ],
                 ]
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -199,7 +199,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'using_cache' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -213,7 +213,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'verbose' => false,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -225,7 +225,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'diff' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -239,7 +239,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config_contains_finder' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -252,7 +252,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config_contains_finder' => false,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -267,7 +267,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config_contains_finder' => false,
             ],
-            $this->mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',
@@ -282,7 +282,7 @@ class PhpCsFixerTest extends AbstractExternalTaskTestCase
             [
                 'config_contains_finder' => true,
             ],
-            $this->mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
             'php-cs-fixer',
             [
                 '--format=json',

@@ -21,7 +21,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -55,31 +55,31 @@ class StylelintTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.css']),
+            self::mockContext(RunContext::class, ['hello.css']),
             function () {
-                $this->mockProcessBuilder('stylelint', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('stylelint', $process = self::mockProcess(1));
 
                 $this->formatter->format($process)->willReturn($message = 'message');
             },
@@ -88,43 +88,43 @@ class StylelintTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.css']),
+            self::mockContext(RunContext::class, ['hello.css']),
             function () {
-                $this->mockProcessBuilder('stylelint', $this->mockProcess(0));
+                $this->mockProcessBuilder('stylelint', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notajsfile.txt']),
+            self::mockContext(RunContext::class, ['notajsfile.txt']),
             function () {}
         ];
         yield 'no-files-after-whitelist-patterns' => [
             [
                 'whitelist_patterns' => ['/^resources\/css\/(.*)/'],
             ],
-            $this->mockContext(RunContext::class, ['resources/dont/find/this/file.css']),
+            self::mockContext(RunContext::class, ['resources/dont/find/this/file.css']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'precommit' => [
             [],
-            $this->mockContext(GitPreCommitContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(GitPreCommitContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 'hello.css',
@@ -135,7 +135,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'bin' => 'node_modules/.bin/stylelint',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 'node_modules/.bin/stylelint',
@@ -147,7 +147,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'config' => '.stylelintrc.json',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--config=.stylelintrc.json',
@@ -159,7 +159,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'config_basedir' => 'path/to/base/dir',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--config-basedir=path/to/base/dir',
@@ -171,7 +171,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'ignore_path' => 'path/to/.ignorefile',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--ignore-path=path/to/.ignorefile',
@@ -183,7 +183,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'ignore_pattern' => 'pattern',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--ignore-pattern=pattern',
@@ -195,7 +195,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'syntax' => 'css',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--syntax=css',
@@ -207,7 +207,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'custom_syntax' => 'mysyntax',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--custom-syntax=mysyntax',
@@ -219,7 +219,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'ignore_disables' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--ignore-disables',
@@ -231,7 +231,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'disable_default_ignores' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--disable-default-ignores',
@@ -243,7 +243,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'cache' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--cache',
@@ -255,7 +255,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'cache_location' => 'path/to/cache',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--cache-location=path/to/cache',
@@ -267,7 +267,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'formatter' => 'string',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--formatter=string',
@@ -279,7 +279,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'custom_formatter' => 'myformatter',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--custom-formatter=myformatter',
@@ -291,7 +291,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'quiet' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--quiet',
@@ -303,7 +303,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'color' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--color',
@@ -315,7 +315,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'color' => false,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--no-color',
@@ -327,7 +327,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'report_needless_disables' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--report-needless-disables',
@@ -339,7 +339,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'report_invalid_scope_disables' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--report-invalid-scope-disables',
@@ -351,7 +351,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'report_descriptionless_disables' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--report-descriptionless-disables',
@@ -363,7 +363,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'max_warnings' => 10,
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--max-warnings=10',
@@ -375,7 +375,7 @@ class StylelintTest extends AbstractExternalTaskTestCase
             [
                 'output_file' => 'path/to/outputfile',
             ],
-            $this->mockContext(RunContext::class, ['hello.css', 'hello2.css']),
+            self::mockContext(RunContext::class, ['hello.css', 'hello2.css']),
             'stylelint',
             [
                 '--output-file=path/to/outputfile',

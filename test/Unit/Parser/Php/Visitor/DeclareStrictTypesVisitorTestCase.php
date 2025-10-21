@@ -1,0 +1,65 @@
+<?php
+
+namespace GrumPHPTest\Unit\Parser\Php\Visitor;
+
+use GrumPHP\Parser\ParseError;
+use GrumPHP\Parser\Php\Visitor\ContextAwareVisitorInterface;
+use GrumPHP\Parser\Php\Visitor\DeclareStrictTypesVisitor;
+use PHPUnit\Framework\Attributes\Test;
+
+class DeclareStrictTypesVisitorTestCase extends AbstractVisitorTestCase
+{
+    protected function getVisitor(): ContextAwareVisitorInterface
+    {
+        return new DeclareStrictTypesVisitor();
+    }
+
+    #[Test]
+    function it_enforces_strict_types()
+    {
+        $code = <<<EOC
+<?php
+
+class SomeClass
+{
+}
+EOC;
+
+        $errors = $this->visit($code);
+        $this->assertCount(1, $errors);
+        $this->assertEquals(ParseError::TYPE_ERROR, $errors[0]->getType());
+        $this->assertEquals(-1, $errors[0]->getLine());
+    }
+
+    #[Test]
+    function it_doesnt_allow_strict_types_with_value_0()
+    {
+        $code = <<<EOC
+<?php
+declare(strict_types = 0);
+
+class SomeClass
+{
+}
+EOC;
+
+        $errors = $this->visit($code);
+        $this->assertCount(1, $errors);
+    }
+
+    #[Test]
+    function it_allows_code_with_strict_types_set()
+    {
+        $code = <<<EOC
+<?php
+declare(strict_types = 1);
+
+class SomeClass
+{
+}
+EOC;
+
+        $errors = $this->visit($code);
+        $this->assertCount(0, $errors);
+    }
+}

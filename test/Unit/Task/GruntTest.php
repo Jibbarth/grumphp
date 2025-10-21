@@ -20,7 +20,7 @@ class GruntTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -32,67 +32,67 @@ class GruntTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.js']),
+            self::mockContext(RunContext::class, ['hello.js']),
             function () {
-                $this->mockProcessBuilder('grunt', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('grunt', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.js']),
+            self::mockContext(RunContext::class, ['hello.js']),
             function () {
-                $this->mockProcessBuilder('grunt', $this->mockProcess(0));
+                $this->mockProcessBuilder('grunt', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notajsfile.txt']),
+            self::mockContext(RunContext::class, ['notajsfile.txt']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'grunt',
             []
         ];
@@ -101,7 +101,7 @@ class GruntTest extends AbstractExternalTaskTestCase
             [
                 'grunt_file' => 'Gruntfile'
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'grunt',
             [
                 '--gruntfile=Gruntfile'
@@ -112,7 +112,7 @@ class GruntTest extends AbstractExternalTaskTestCase
             [
                 'task' => 'mytask',
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'grunt',
             [
                 'mytask',

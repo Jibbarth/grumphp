@@ -14,6 +14,7 @@ use GrumPHP\Runner\TaskHandler\Middleware\EventDispatchingTaskHandlerMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskResultInterface;
 use GrumPHP\Test\Runner\AbstractTaskHandlerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -40,7 +41,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_success(): void
     {
         $context = $this->createRunnerContext();
@@ -70,7 +71,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_skipped(): void
     {
         $context = $this->createRunnerContext();
@@ -100,7 +101,7 @@ class EventDispatchingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddl
         )->shouldBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dispatch_events_on_failed(): void
     {
         $context = $this->createRunnerContext();

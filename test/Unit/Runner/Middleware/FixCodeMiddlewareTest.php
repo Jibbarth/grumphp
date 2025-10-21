@@ -9,6 +9,7 @@ use GrumPHP\Fixer\FixerUpper;
 use GrumPHP\Runner\Middleware\FixCodeMiddleware;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -34,7 +35,7 @@ class FixCodeMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_fix_broken_tasks(): void
     {
         $context = $this->createRunnerContext();

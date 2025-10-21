@@ -12,6 +12,7 @@ use GrumPHP\Runner\StopOnFailure;
 use GrumPHP\Runner\TaskHandler\Middleware\ReportingTaskHandlerMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Test\Runner\AbstractTaskHandlerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -38,7 +39,7 @@ class ReportingTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewareTe
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_reports_results(): void
     {
         $context = $this->createRunnerContext();

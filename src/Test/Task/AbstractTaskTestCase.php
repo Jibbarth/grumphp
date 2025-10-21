@@ -11,9 +11,12 @@ use GrumPHP\Task\Config\Metadata;
 use GrumPHP\Task\Config\TaskConfig;
 use GrumPHP\Task\Context\ContextInterface;
 use GrumPHP\Task\TaskInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Prophet;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 
@@ -27,11 +30,11 @@ abstract class AbstractTaskTestCase extends TestCase
     protected $task;
 
     abstract protected function provideTask(): TaskInterface;
-    abstract public function provideConfigurableOptions(): iterable;
-    abstract public function provideRunContexts(): iterable;
-    abstract public function provideFailsOnStuff(): iterable;
-    abstract public function providePassesOnStuff(): iterable;
-    abstract public function provideSkipsOnStuff(): iterable;
+    abstract public static function provideConfigurableOptions(): iterable;
+    abstract public static function provideRunContexts(): iterable;
+    abstract public static function provideFailsOnStuff(): iterable;
+    abstract public static function providePassesOnStuff(): iterable;
+    abstract public static function provideSkipsOnStuff(): iterable;
 
     protected function setUp(): void
     {
@@ -39,10 +42,8 @@ abstract class AbstractTaskTestCase extends TestCase
         $this->task = $this->provideTask();
     }
 
-    /**
-     * @test
-     * @dataProvider provideConfigurableOptions
-     */
+    #[DataProvider('provideConfigurableOptions')]
+    #[Test]
     public function it_contains_configurable_options(array $input, ?array $output): void
     {
         if (!$output) {
@@ -132,10 +133,8 @@ abstract class AbstractTaskTestCase extends TestCase
         self::assertSame('', $result->getMessage());
     }
 
-    /**
-     * @test
-     * @dataProvider provideSkipsOnStuff
-     */
+    #[DataProvider('provideSkipsOnStuff')]
+    #[Test]
     public function it_skips_on_stuff(
         array $config,
         ContextInterface $context,
@@ -164,10 +163,10 @@ abstract class AbstractTaskTestCase extends TestCase
         );
     }
 
-    protected function mockContext(string $class = ContextInterface::class, array $files = []): ContextInterface
+    protected static function mockContext(string $class = ContextInterface::class, array $files = []): ContextInterface
     {
         /** @var ContextInterface|ObjectProphecy $context */
-        $context = $this->prophesize($class);
+        $context = (new Prophet())->prophesize($class);
         $context->getFiles()->willReturn(
             new FilesCollection(
                 array_map(

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace GrumPHPTest\E2E;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class GitHookParametersTest extends AbstractE2ETestCase
 {
-    /** @test */
+    #[Test]
     function it_can_specify_simple_hook_exec_command()
     {
         $this->initializeGitInRootDir();
@@ -30,7 +32,7 @@ class GitHookParametersTest extends AbstractE2ETestCase
         $this->commitAll();
     }
 
-    /** @test */
+    #[Test]
     function it_can_specify_hook_exec_command_with_additional_arguments()
     {
         $this->initializeGitInRootDir();
@@ -56,7 +58,7 @@ class GitHookParametersTest extends AbstractE2ETestCase
         $this->commitAll();
     }
 
-    /** @test */
+    #[Test]
     function it_can_add_hook_variables()
     {
         $this->initializeGitInRootDir();

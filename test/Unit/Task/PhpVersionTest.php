@@ -27,7 +27,7 @@ class PhpVersionTest extends AbstractTaskTestCase
         return new PhpVersion($this->versionUtility->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -37,31 +37,31 @@ class PhpVersionTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'current-version-not-supported' => [
             [
                 'project' => '7.4'
             ],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->versionUtility->isSupportedVersion(PHP_VERSION)->willReturn(false);
             },
@@ -71,7 +71,7 @@ class PhpVersionTest extends AbstractTaskTestCase
             [
                 'project' => '99.99.1'
             ],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->versionUtility->isSupportedVersion(PHP_VERSION)->willReturn(true);
                 $this->versionUtility->isSupportedProjectVersion(PHP_VERSION, $options['project'])->willReturn(false);
@@ -80,13 +80,13 @@ class PhpVersionTest extends AbstractTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'project-version-lower' => [
             [
                 'project' => '4.0'
             ],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->versionUtility->isSupportedVersion(PHP_VERSION)->willReturn(true);
                 $this->versionUtility->isSupportedProjectVersion(PHP_VERSION, $options['project'])->willReturn(true);
@@ -94,11 +94,11 @@ class PhpVersionTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-project' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
     }

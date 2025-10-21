@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Fixer;
 
 use GrumPHP\Fixer\FixResult;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class FixResultTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_contain_a_result(): void
     {
         $result = FixResult::success('success');
@@ -18,7 +19,7 @@ class FixResultTest extends TestCase
         self::assertSame('success', $result->result());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_contain_an_error(): void
     {
         $result = FixResult::failed($error = new \Exception('error'));

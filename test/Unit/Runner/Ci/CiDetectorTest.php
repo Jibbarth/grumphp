@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Runner\Ci;
 
 use GrumPHP\Runner\Ci\CiDetector;
 use OndraM\CiDetector\CiDetector as RealCiDetector;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -14,7 +15,7 @@ class CiDetectorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_detect_it_runs_in_well_known_ci_environments(): void
     {
         /** @var ObjectProphecy & RealCiDetector $ciDetector */

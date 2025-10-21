@@ -20,7 +20,7 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'default' => [
             [
@@ -56,33 +56,33 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [
                 'command' => ['--version']
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             function() {
-                $process = $this->mockProcess(1);
+                $process = self::mockProcess(1);
                 $this->mockProcessBuilder('php', $process);
                 $this->formatter->format($process)->willReturn('nope');
             },
@@ -90,15 +90,15 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [
                 'command' => ['--version']
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             function() {
-                $this->mockProcessBuilder('php', $this->mockProcess());
+                $this->mockProcessBuilder('php', self::mockProcess());
             }
         ];
 
@@ -107,20 +107,20 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
                 'command' => ['--version'],
                 'run_always' => true,
             ],
-            $this->mockContext(RunContext::class, ['non-related.log']),
+            self::mockContext(RunContext::class, ['non-related.log']),
             function() {
-                $this->mockProcessBuilder('php', $this->mockProcess());
+                $this->mockProcessBuilder('php', self::mockProcess());
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [
                 'command' => ['task:run']
             ],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function() {
             }
         ];
@@ -130,7 +130,7 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
                 'command' => ['task:run'],
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.php']),
+            self::mockContext(RunContext::class, ['test/file.php']),
             function() {
             }
         ];
@@ -140,7 +140,7 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
                 'command' => ['task:run'],
                 'whitelist_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['config/file.php']),
+            self::mockContext(RunContext::class, ['config/file.php']),
             function() {
             }
         ];
@@ -149,19 +149,19 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
             [
                 'command' => ['task:run'],
             ],
-            $this->mockContext(RunContext::class, ['non-trigger-extension.log']),
+            self::mockContext(RunContext::class, ['non-trigger-extension.log']),
             function() {
             }
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'single-command' => [
             [
                 'command' => ['lint:container']
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php',
             [
                 './bin/console',
@@ -178,7 +178,7 @@ final class SymfonyConsoleTest extends AbstractExternalTaskTestCase
                     '-vvv'
                 ]
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'php',
             [
                 './bin/console',

@@ -11,6 +11,7 @@ use GrumPHP\Runner\StopOnFailure;
 use GrumPHP\Runner\TaskHandler\Middleware\ParallelProcessingMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Test\Runner\AbstractTaskHandlerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -38,7 +39,7 @@ class ParallelProcessingMiddlewareTest extends AbstractTaskHandlerMiddlewareTest
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_runs_in_serial_when_parallel_is_disabled(): void
     {
         $context = $this->createRunnerContext();

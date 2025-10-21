@@ -12,6 +12,7 @@ use GrumPHP\Runner\MiddlewareStack;
 use GrumPHP\Runner\TaskRunner;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Task\Context\RunContext;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -21,7 +22,7 @@ class TaskRunnerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_can_run_the_specified_tasks(): void
     {
         $expectedResult = new TaskResultCollection();

@@ -12,6 +12,7 @@ use GrumPHP\Task\Context\ContextInterface;
 use PHPUnit\Framework\Assert;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\Prophet;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Process;
 
@@ -27,7 +28,7 @@ abstract class AbstractExternalTaskTestCase extends AbstractTaskTestCase
      */
     protected $formatter;
 
-    abstract public function provideExternalTaskRuns(): iterable;
+    abstract public static function provideExternalTaskRuns(): iterable;
 
     protected function setUp(): void
     {
@@ -99,10 +100,10 @@ abstract class AbstractExternalTaskTestCase extends AbstractTaskTestCase
         );
     }
 
-    protected function mockProcess(int $exitCode = 0, string $output = '', string $errors = ''): Process
+    protected static function mockProcess(int $exitCode = 0, string $output = '', string $errors = ''): Process
     {
         /** @var Process|ObjectProphecy $process */
-        $process = $this->prophesize(Process::class);
+        $process = (new Prophet())->prophesize(Process::class);
         $process->run()->willReturn($exitCode);
         $process->getExitCode()->willReturn($exitCode);
         $process->isSuccessful()->willReturn($exitCode === 0);
@@ -110,10 +111,10 @@ abstract class AbstractExternalTaskTestCase extends AbstractTaskTestCase
         $process->getErrorOutput()->willReturn($errors);
         $process->getCommandLine()->willReturn('mocked-cli');
 
-        $process->setWorkingDirectory(Argument::any())->will(function ($arguments) {
-            $this->getWorkingDirectory()->willReturn($arguments[0]);
+        $process->setWorkingDirectory(Argument::any())->will(function ($arguments) use ($process) {
+            $process->getWorkingDirectory()->willReturn($arguments[0]);
 
-            return $this->reveal();
+            return $process->reveal();
         });
 
 
@@ -128,9 +129,9 @@ abstract class AbstractExternalTaskTestCase extends AbstractTaskTestCase
         $this->processBuilder->buildProcess($arguments)->willReturn($process);
     }
 
-    protected function mockProcessWithStdIn(int $exitCode = 0, string $output = '', string $errors = '') {
+    protected static  function mockProcessWithStdIn(int $exitCode = 0, string $output = '', string $errors = '') {
         /** @var Process|ObjectProphecy $process */
-        $process = $this->prophesize(Process::class);
+        $process = (new Prophet())->prophesize(Process::class);
         $process->setInput(Argument::type(InputStream::class))->shouldBeCalled()->willReturn($process->reveal());
         $process->start()->shouldBeCalled();
         $process->wait()->shouldBeCalled()->willReturn($exitCode);

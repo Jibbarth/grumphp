@@ -33,7 +33,7 @@ class JsonLintTest extends AbstractTaskTestCase
         return new JsonLint($this->linter->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -44,29 +44,29 @@ class JsonLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exception' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.json']),
+            self::mockContext(RunContext::class, ['hello.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willThrow(new RuntimeException('nope'));
@@ -76,52 +76,52 @@ class JsonLintTest extends AbstractTaskTestCase
 
         yield 'lint-errors-on-one-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.json']),
+            self::mockContext(RunContext::class, ['hello.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.json'),
-                        $this->createLintError('hello.json'),
+                        self::createLintError('hello.json'),
+                        self::createLintError('hello.json'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.json'),
-                $this->createLintError('hello.json'),
+                self::createLintError('hello.json'),
+                self::createLintError('hello.json'),
             ]))
         ];
 
         yield 'lint-errors-on-multiple-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.json', 'world.json']),
+            self::mockContext(RunContext::class, ['hello.json', 'world.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.json'),
-                        $this->createLintError('hello.json'),
+                        self::createLintError('hello.json'),
+                        self::createLintError('hello.json'),
                     ])
                 );
                 $this->linter->lint($context->getFiles()[1])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('world.json'),
+                        self::createLintError('world.json'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.json'),
-                $this->createLintError('hello.json'),
-                $this->createLintError('world.json'),
+                self::createLintError('hello.json'),
+                self::createLintError('hello.json'),
+                self::createLintError('world.json'),
             ]))
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'no-lint-errors' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.json']),
+            self::mockContext(RunContext::class, ['hello.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -129,7 +129,7 @@ class JsonLintTest extends AbstractTaskTestCase
         ];
         yield 'no-lint-errors-on-multiple-files' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.json']),
+            self::mockContext(RunContext::class, ['hello.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -139,7 +139,7 @@ class JsonLintTest extends AbstractTaskTestCase
             [
                 'detect_key_conflicts' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.json']),
+            self::mockContext(RunContext::class, ['hello.json']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -149,7 +149,7 @@ class JsonLintTest extends AbstractTaskTestCase
             [
                 'ignore_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['src/hello.json']),
+            self::mockContext(RunContext::class, ['src/hello.json']),
             function (array $options) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint(Argument::cetera())->shouldNotBeCalled();
@@ -157,16 +157,16 @@ class JsonLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaymlfile.txt']),
+            self::mockContext(RunContext::class, ['notaymlfile.txt']),
             function () {}
         ];
     }
@@ -176,7 +176,7 @@ class JsonLintTest extends AbstractTaskTestCase
         $this->linter->setDetectKeyConflicts($options['detect_key_conflicts'])->shouldBeCalled();
     }
 
-    private function createLintError(string $fileName): JsonLintError
+    private static function createLintError(string $fileName): JsonLintError
     {
         return new JsonLintError(LintError::TYPE_ERROR, 'error', $fileName, 0);
     }

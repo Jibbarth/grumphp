@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace GrumPHPTest\Unit\Configuration;
 
 use GrumPHP\Configuration\Configuration;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 
 class ConfigurationTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider provideConfigs
-     */
+    #[DataProvider('provideConfigs')]
+    #[Test]
     public function it_can_be_configuered(array $config, array $expected): void
     {
         $actual = $this->parse($config);
@@ -20,7 +20,7 @@ class ConfigurationTest extends TestCase
         self::assertArrayContains($expected, $actual);
     }
 
-    public function provideConfigs()
+    public static function provideConfigs()
     {
         yield 'ascii_not_set' => [
             [],

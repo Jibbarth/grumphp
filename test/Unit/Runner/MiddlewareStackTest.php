@@ -10,6 +10,7 @@ use GrumPHP\Runner\Middleware\RunnerMiddlewareInterface;
 use GrumPHP\Runner\MiddlewareStack;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Task\Context\RunContext;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -19,7 +20,7 @@ class MiddlewareStackTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @test */
+    #[Test]
     public function it_has_a_default_fallback_middleware(): void
     {
         $stack = new MiddlewareStack();
@@ -28,7 +29,7 @@ class MiddlewareStackTest extends TestCase
         self::assertEquals(new TaskResultCollection(), $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_run_middlewares_in_a_stack(): void
     {
         $expectedResult = new TaskResultCollection();

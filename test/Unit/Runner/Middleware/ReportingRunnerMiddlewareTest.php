@@ -9,6 +9,7 @@ use GrumPHP\Runner\Middleware\ReportingRunnerMiddleware;
 use GrumPHP\Runner\Reporting\RunnerReporter;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -34,7 +35,7 @@ class ReportingRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_report_runner_results(): void
     {
         $context = $this->createRunnerContext();

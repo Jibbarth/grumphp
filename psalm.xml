@@ -7,6 +7,9 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="false"
     findUnusedCode="false"
+    ensureOverrideAttribute="false"
+    ignoreInternalFunctionFalseReturn="true"
+    ignoreInternalFunctionNullReturn="true"
 >
     <projectFiles>
         <directory name="src" />
@@ -24,5 +27,10 @@
                 <directory name="src/" />
             </errorLevel>
         </RiskyTruthyFalsyComparison>
+        <ClassMustBeFinal>
+            <errorLevel type="suppress">
+                <directory name="src/" />
+            </errorLevel>
+        </ClassMustBeFinal>
     </issueHandlers>
 </psalm>

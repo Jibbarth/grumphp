@@ -14,6 +14,7 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskResultInterface;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -43,7 +44,7 @@ class HandleRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_wait_for_results(): void
     {
         $context = $this->createRunnerContext()->withTasks(new TasksCollection([
@@ -69,7 +70,7 @@ class HandleRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertTrue($result->isPassed());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_continue_on_failed_results(): void
     {
         $this->middleware = new HandleRunnerMiddleware(
@@ -104,7 +105,7 @@ class HandleRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertTrue($result->isFailed());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_skip_on_first_failed_result(): void
     {
         $this->middleware = new HandleRunnerMiddleware(
@@ -145,7 +146,7 @@ class HandleRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertTrue($result->isFailed());
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_skip_on_non_blocking_failed_result(): void
     {
         $this->middleware = new HandleRunnerMiddleware(
@@ -178,7 +179,7 @@ class HandleRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertFalse($result->isFailed());
     }
 
-    /** @test */
+    #[Test]
     public function it_rethrows_exception_on_unkown_exception(): void
     {
         $context = $this->createRunnerContext()->withTasks(new TasksCollection([

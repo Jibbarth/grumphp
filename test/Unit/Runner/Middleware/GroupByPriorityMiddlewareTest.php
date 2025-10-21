@@ -12,6 +12,7 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Runner\TaskRunnerContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 class GroupByPriorityMiddlewareTest extends AbstractRunnerMiddlewareTestCase
@@ -31,7 +32,7 @@ class GroupByPriorityMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_run_tasks_grouped_by_priority(): void
     {
         $context = $this->createRunnerContext()->withTasks(new TasksCollection([
@@ -55,7 +56,7 @@ class GroupByPriorityMiddlewareTest extends AbstractRunnerMiddlewareTestCase
         self::assertSame($result->get(2)->getTask(), $task2);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_skip_on_failure(): void
     {
         $this->middleware = new GroupByPriorityMiddleware(

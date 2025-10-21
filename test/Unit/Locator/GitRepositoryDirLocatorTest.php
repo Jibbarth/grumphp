@@ -6,6 +6,7 @@ namespace GrumPHPTest\Unit\Locator;
 use GrumPHP\Locator\GitRepositoryDirLocator;
 use GrumPHP\Util\Filesystem;
 use GrumPHPTest\Symfony\FilesystemTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GitRepositoryDirLocatorTest extends FilesystemTestCase
 {
@@ -34,18 +35,14 @@ class GitRepositoryDirLocatorTest extends FilesystemTestCase
         $this->gitDir                   = $this->workspace . DIRECTORY_SEPARATOR . '.git';
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_passthrough_git_dir_path(): void
     {
         $this->filesystem->mkdir($this->gitDir);
         $this->assertEquals($this->gitDir, $this->locator->locate($this->gitDir));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_locate_submodule_git_dir(): void
     {
         $this->filesystem->dumpFile($this->gitDir, 'gitdir: ../dev/null');
@@ -55,18 +52,14 @@ class GitRepositoryDirLocatorTest extends FilesystemTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_passthrough_git_dir_path_if_file_is_not_parseable(): void
     {
         $this->filesystem->dumpFile($this->gitDir, 'not parseable');
         $this->assertEquals($this->gitDir, $this->locator->locate($this->gitDir));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_locate_git_dir_in_workspaces(): void
     {
         $ourWorktreeProject = $this->workspace.'/project1/';

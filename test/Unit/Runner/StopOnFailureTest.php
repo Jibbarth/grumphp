@@ -9,6 +9,7 @@ use GrumPHP\Runner\TaskResult;
 use GrumPHP\Task\Context\RunContext;
 use GrumPHPTest\Helpers\ContextMocks;
 use GrumPHPTest\Helpers\TaskMocks;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -18,7 +19,7 @@ class StopOnFailureTest extends TestCase
     use TaskMocks;
     use ContextMocks;
 
-    /** @test */
+    #[Test]
     public function it_can_stop_cancelation_if_enabled(): void
     {
         $stopOnFailure = $this->createStopOnFailure(true);
@@ -28,7 +29,7 @@ class StopOnFailureTest extends TestCase
         self::assertTrue($cancellation->isRequested());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_stop_cancelation_if_disabled(): void
     {
         $stopOnFailure = $this->createStopOnFailure(false);
@@ -39,7 +40,7 @@ class StopOnFailureTest extends TestCase
         self::assertFalse($cancellation->isRequested());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_decide_for_failing_result(): void
     {
         $stopOnFailure = $this->createStopOnFailure(true);
@@ -54,7 +55,7 @@ class StopOnFailureTest extends TestCase
         self::assertTrue($cancellation->isRequested());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_decide_for_non_blocking_result(): void
     {
         $stopOnFailure = $this->createStopOnFailure(true);
@@ -69,7 +70,7 @@ class StopOnFailureTest extends TestCase
         self::assertFalse($cancellation->isRequested());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_decide_for_passed_result(): void
     {
         $stopOnFailure = $this->createStopOnFailure(true);
@@ -84,7 +85,7 @@ class StopOnFailureTest extends TestCase
         self::assertFalse($cancellation->isRequested());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_decide_for_skipped_result(): void
     {
         $stopOnFailure = $this->createStopOnFailure(true);

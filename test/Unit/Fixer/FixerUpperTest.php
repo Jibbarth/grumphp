@@ -14,6 +14,7 @@ use GrumPHP\Runner\TaskResultInterface;
 use GrumPHP\Task\Config\Metadata;
 use GrumPHP\Task\Config\TaskConfig;
 use GrumPHP\Task\TaskInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -56,7 +57,7 @@ class FixerUpperTest extends TestCase
         });
         $this->IO->isVerbose()->willReturn(false);
         $this->IO->write(Argument::cetera())->willReturn(null);
-        $this->style->warning(Argument::cetera())->willReturn(null);
+        $this->style->warning(Argument::cetera())->should(static fn () => true);
 
         $this->createFixerUpper(new FixerConfig(true, true));
     }
@@ -69,14 +70,14 @@ class FixerUpperTest extends TestCase
         return $this->fixerUpper;
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_fix_empty_tasks(): void
     {
         $this->fixerUpper->fix(new TaskResultCollection([]));
         $this->IO->write(Argument::any())->shouldNotBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_fix_non_fixable_tasks(): void
     {
         $result = $this->prophesize(TaskResultInterface::class);
@@ -84,7 +85,7 @@ class FixerUpperTest extends TestCase
         $this->IO->write(Argument::any())->shouldNotBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_fix_when_disabled(): void
     {
         $this->createFixerUpper(new FixerConfig(false, true));
@@ -94,7 +95,7 @@ class FixerUpperTest extends TestCase
         $this->IO->write(Argument::any())->shouldNotBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_fix_when_canceled_by_user(): void
     {
         $result = $this->prophesize(FixableTaskResult::class);
@@ -103,7 +104,7 @@ class FixerUpperTest extends TestCase
         $this->IO->write(Argument::any())->shouldNotBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_default_configuration_when_user_cannot_answer_fix_question(): void
     {
         $this->createFixerUpper(new FixerConfig(true, false));
@@ -114,7 +115,7 @@ class FixerUpperTest extends TestCase
         $this->IO->write(Argument::any())->shouldNotBeCalled();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_fix_fixable_tasks(): void
     {
         /** @var FixableTaskResult $result1 */

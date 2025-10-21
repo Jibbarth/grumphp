@@ -9,6 +9,7 @@ use GrumPHP\Runner\StopOnFailure;
 use GrumPHP\Runner\TaskHandler\Middleware\MemoizedResultsTaskHandlerMiddleware;
 use GrumPHP\Runner\TaskResult;
 use GrumPHP\Test\Runner\AbstractTaskHandlerMiddlewareTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 class MemoizedResultsTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddlewareTestCase
@@ -33,7 +34,7 @@ class MemoizedResultsTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddle
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_success(): void
     {
         $context = $this->createRunnerContext();
@@ -48,7 +49,7 @@ class MemoizedResultsTaskHandlerMiddlewareTest extends AbstractTaskHandlerMiddle
         self::assertSame($this->map->get('task'), $actualResult);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_handle_exceptions(): void
     {
         $context = $this->createRunnerContext();

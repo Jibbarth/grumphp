@@ -6,6 +6,8 @@ use GrumPHP\Collection\LintErrorsCollection;
 use GrumPHP\Linter\Yaml\YamlLinter;
 use GrumPHP\Linter\Yaml\YamlLintError;
 use GrumPHP\Util\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use SplFileInfo;
@@ -52,27 +54,21 @@ class YamlLinterTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider provideYamlValidation
-     */
+    #[DataProvider('provideYamlValidation')]
+    #[Test]
     function it_should_validate_yaml_for_syntax_errors($fixture, $errors)
     {
         $this->validateFixture($fixture, $errors);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_be_able_to_handle_object_support_with_yaml_current()
     {
         $this->linter->setObjectSupport(true);
         $this->validateFixture('object-support.yml', 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_handle_exceptions_on_invalid_type_with_yaml_current()
     {
         $this->linter->setObjectSupport(false);
@@ -81,9 +77,7 @@ class YamlLinterTest extends TestCase
         $this->validateFixture('object-support.yml', 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_handle_exceptions_on_constants()
     {
         $this->linter->setExceptionOnInvalidType(true);
@@ -91,9 +85,7 @@ class YamlLinterTest extends TestCase
         $this->validateFixture($fixture, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_validate_constants()
     {
         $this->linter->setExceptionOnInvalidType(true);
@@ -103,9 +95,7 @@ class YamlLinterTest extends TestCase
         $this->validateFixture($fixture, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_handle_exceptions_on_custom_tags()
     {
         $this->linter->setExceptionOnInvalidType(true);
@@ -113,9 +103,7 @@ class YamlLinterTest extends TestCase
         $this->validateFixture($fixture, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_should_validate_custom_tags()
     {
         $this->linter->setExceptionOnInvalidType(true);
@@ -127,7 +115,7 @@ class YamlLinterTest extends TestCase
     /**
      * @return array
      */
-    function provideYamlValidation()
+    static function provideYamlValidation()
     {
         return [
             ['fixture' => 'valid.yml', 'errors' => 0],

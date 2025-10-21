@@ -21,7 +21,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -43,31 +43,31 @@ class ESLintTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.js']),
+            self::mockContext(RunContext::class, ['hello.js']),
             function () {
-                $this->mockProcessBuilder('eslint', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('eslint', $process = self::mockProcess(1));
 
                 $this->formatter->format($process)->willReturn($message = 'message');
             },
@@ -76,45 +76,45 @@ class ESLintTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.js']),
+            self::mockContext(RunContext::class, ['hello.js']),
             function () {
-                $this->mockProcessBuilder('eslint', $this->mockProcess(0));
+                $this->mockProcessBuilder('eslint', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notajsfile.txt']),
+            self::mockContext(RunContext::class, ['notajsfile.txt']),
             function () {}
         ];
         yield 'no-files-after-whitelist-patterns' => [
             [
                 'whitelist_patterns' => ['/^resources\/js\/(.*)/'],
             ],
-            $this->mockContext(RunContext::class, ['resources/dont/find/this/file.js']),
+            self::mockContext(RunContext::class, ['resources/dont/find/this/file.js']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'bin' => [
             [
                 'bin' => 'node_modules/.bin/eslint',
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 'node_modules/.bin/eslint',
@@ -126,7 +126,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'config' => '.eslintrc.json',
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--config=.eslintrc.json',
@@ -138,7 +138,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'ignore_path' => '.eslintignore',
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--ignore-path=.eslintignore',
@@ -150,7 +150,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'debug' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--debug',
@@ -162,7 +162,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'format' => 'table',
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--format=table',
@@ -174,7 +174,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'no_eslintrc' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--no-eslintrc',
@@ -186,7 +186,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'quiet' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--quiet',
@@ -198,7 +198,7 @@ class ESLintTest extends AbstractExternalTaskTestCase
             [
                 'max_warnings' => 10,
             ],
-            $this->mockContext(RunContext::class, ['hello.js', 'hello2.js']),
+            self::mockContext(RunContext::class, ['hello.js', 'hello2.js']),
             'eslint',
             [
                 '--max-warnings=10',

@@ -7,18 +7,18 @@ platform:
 
 matrix:
   allow_failures:
-    - php_version: 8.4
+    - php_version: 8.5
 
 environment:
   matrix:
+    - dependencies: lock
+      php_version: 8.5
     - dependencies: lock
       php_version: 8.4
     - dependencies: lock
       php_version: 8.3
     - dependencies: lock
       php_version: 8.2
-    - dependencies: lock
-      php_version: 8.1
 
   project_directory: c:\projects\grumphp
   composer_directory: c:\tools\composer
@@ -79,4 +79,4 @@ install:
 test_script:
   - ps: cd $Env:project_directory
   - php ./bin/grumphp run --testsuite=windows --no-interaction
-  - php ./vendor/bin/paratest --testsuite=E2E -f --verbose
+  - php ./vendor/bin/paratest --testsuite=E2E --functional --verbose

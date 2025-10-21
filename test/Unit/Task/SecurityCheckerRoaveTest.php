@@ -11,6 +11,8 @@ use GrumPHP\Task\SecurityCheckerRoave;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Task\AbstractExternalTaskTestCase;
 use GrumPHP\Util\Filesystem;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Symfony\Component\Process\Process;
 
@@ -55,7 +57,7 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         $this->filesystem->isFile(Argument::exact('./composer.json'))->willReturn(false);
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -67,31 +69,31 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.lock']),
+            self::mockContext(RunContext::class, ['composer.lock']),
             function () {
-                $this->mockProcessBuilder('composer', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('composer', $process = self::mockProcess(1));
                 $this->mockComposerJsonWithRoaveSecurityAdvisories();
                 $this->formatter->format($process)->willReturn('nope');
             },
@@ -100,22 +102,22 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         yield 'no-roave-security-advisories' =>
         [
             [],
-            $this->mockContext(RunContext::class, ['composer.lock']),
+            self::mockContext(RunContext::class, ['composer.lock']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->mockComposerJsonWithoutRoaveSecurityAdvisories();
             },
             'This task is only available when roave/security-advisories is installed as a library.'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.lock']),
+            self::mockContext(RunContext::class, ['composer.lock']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->mockComposerJsonWithRoaveSecurityAdvisories();
             },
         ];
@@ -123,19 +125,19 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
             [
                 'run_always' => true
             ],
-            $this->mockContext(RunContext::class, ['notrelated.php']),
+            self::mockContext(RunContext::class, ['notrelated.php']),
             function () {
-                $this->mockProcessBuilder('composer', $this->mockProcess(0));
+                $this->mockProcessBuilder('composer', self::mockProcess(0));
                 $this->mockComposerJsonWithRoaveSecurityAdvisories();
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {
                 $this->mockComposerJsonWithRoaveSecurityAdvisories();
             }
@@ -144,17 +146,15 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
             [
                 'run_always' => true
             ],
-            $this->mockContext(RunContext::class, []),
+            self::mockContext(RunContext::class, []),
             function () {
                 $this->mockMissingComposerJson();
             }
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider provideExternalTaskRuns
-     */
+    #[DataProvider('provideExternalTaskRuns')]
+    #[Test]
     public function it_runs_external_task(
         array $config,
         ContextInterface $context,
@@ -171,11 +171,11 @@ class SecurityCheckerRoaveTest extends AbstractExternalTaskTestCase
         parent::it_runs_external_task($config,$context,$taskName,$cliArguments,$process);
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['composer.lock']),
+            self::mockContext(RunContext::class, ['composer.lock']),
             'composer',
             [
                 'update',

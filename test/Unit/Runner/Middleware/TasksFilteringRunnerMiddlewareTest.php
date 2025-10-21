@@ -16,6 +16,7 @@ use GrumPHP\Task\Context\RunContext;
 use GrumPHP\Task\TaskInterface;
 use GrumPHP\Test\Runner\AbstractRunnerMiddlewareTestCase;
 use GrumPHP\TestSuite\TestSuite;
+use PHPUnit\Framework\Attributes\Test;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -34,7 +35,7 @@ class TasksFilteringRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCas
         $this->middleware = new TasksFilteringRunnerMiddleware();
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_tasks_by_all_possible_filters(): void
     {
         $context = (new TaskRunnerContext(
@@ -61,7 +62,7 @@ class TasksFilteringRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCas
         self::assertEquals(new TaskResultCollection(), $results);
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_tasks_by_context(): void
     {
         $context = (new TaskRunnerContext(
@@ -86,7 +87,7 @@ class TasksFilteringRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCas
         self::assertEquals(new TaskResultCollection(), $results);
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_tasks_by_testsuite(): void
     {
         $context = (new TaskRunnerContext(
@@ -112,7 +113,7 @@ class TasksFilteringRunnerMiddlewareTest extends AbstractRunnerMiddlewareTestCas
         self::assertEquals(new TaskResultCollection(), $results);
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_tasks_by_tasknames(): void
     {
         $context = (new TaskRunnerContext(

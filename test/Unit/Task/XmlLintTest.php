@@ -33,7 +33,7 @@ class XmlLintTest extends AbstractTaskTestCase
         return new XmlLint($this->linter->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -55,29 +55,29 @@ class XmlLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exception' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willThrow(new RuntimeException('nope'));
@@ -87,52 +87,52 @@ class XmlLintTest extends AbstractTaskTestCase
 
         yield 'lint-errors-on-one-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()->first())->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.xml'),
-                        $this->createLintError('hello.xml'),
+                        self::createLintError('hello.xml'),
+                        self::createLintError('hello.xml'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.xml'),
-                $this->createLintError('hello.xml'),
+                self::createLintError('hello.xml'),
+                self::createLintError('hello.xml'),
             ]))
         ];
 
         yield 'lint-errors-on-multiple-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.xml', 'world.xml']),
+            self::mockContext(RunContext::class, ['hello.xml', 'world.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('hello.xml'),
-                        $this->createLintError('hello.xml'),
+                        self::createLintError('hello.xml'),
+                        self::createLintError('hello.xml'),
                     ])
                 );
                 $this->linter->lint($context->getFiles()[1])->willReturn(
                     new LintErrorsCollection([
-                        $this->createLintError('world.xml'),
+                        self::createLintError('world.xml'),
                     ])
                 );
             },
             (string) (new LintErrorsCollection([
-                $this->createLintError('hello.xml'),
-                $this->createLintError('hello.xml'),
-                $this->createLintError('world.xml'),
+                self::createLintError('hello.xml'),
+                self::createLintError('hello.xml'),
+                self::createLintError('world.xml'),
             ]))
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'no-lint-errors' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -140,7 +140,7 @@ class XmlLintTest extends AbstractTaskTestCase
         ];
         yield 'no-lint-errors-on-multiple-files' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -153,7 +153,7 @@ class XmlLintTest extends AbstractTaskTestCase
                 'dtd_validation' => true,
                 'scheme_validation' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.xml']),
+            self::mockContext(RunContext::class, ['hello.xml']),
             function (array $options, ContextInterface $context) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint($context->getFiles()[0])->willReturn(new LintErrorsCollection([]));
@@ -163,7 +163,7 @@ class XmlLintTest extends AbstractTaskTestCase
             [
                 'ignore_patterns' => ['src/'],
             ],
-            $this->mockContext(RunContext::class, ['src/hello.xml']),
+            self::mockContext(RunContext::class, ['src/hello.xml']),
             function (array $options) {
                 $this->assumeLinterConfig($options);
                 $this->linter->lint(Argument::cetera())->shouldNotBeCalled();
@@ -171,16 +171,16 @@ class XmlLintTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaxmlfile.txt']),
+            self::mockContext(RunContext::class, ['notaxmlfile.txt']),
             function () {}
         ];
     }
@@ -194,7 +194,7 @@ class XmlLintTest extends AbstractTaskTestCase
 
     }
 
-    private function createLintError(string $fileName): XmlLintError
+    private static function createLintError(string $fileName): XmlLintError
     {
         return new XmlLintError(LintError::TYPE_ERROR, 0, 'error', $fileName, 10, 20);
     }

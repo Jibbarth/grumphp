@@ -20,7 +20,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
         );
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -42,74 +42,74 @@ class InfectionTest extends AbstractExternalTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         yield 'exitCode1' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('infection', $process = $this->mockProcess(1));
+                $this->mockProcessBuilder('infection', $process = self::mockProcess(1));
                 $this->formatter->format($process)->willReturn('nope');
             },
             'nope'
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'exitCode0' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function () {
-                $this->mockProcessBuilder('infection', $this->mockProcess(0));
+                $this->mockProcessBuilder('infection', self::mockProcess(0));
             }
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaphpfile.txt']),
+            self::mockContext(RunContext::class, ['notaphpfile.txt']),
             function () {}
         ];
         yield 'no-files-after-ignore-patterns' => [
             [
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.php']),
+            self::mockContext(RunContext::class, ['test/file.php']),
             function () {}
         ];
     }
 
-    public function provideExternalTaskRuns(): iterable
+    public static function provideExternalTaskRuns(): iterable
     {
         yield 'defaults' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -120,7 +120,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'threads' => 5,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -132,7 +132,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'test_framework' => 'phpunit',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -144,7 +144,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'only_covered' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -156,7 +156,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'show_mutations' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -168,7 +168,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'verbose' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -180,7 +180,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'configuration' => 'file',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -192,7 +192,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'min_msi' => 100,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -204,7 +204,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'min_covered_msi' => 100,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -216,7 +216,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'mutators' => ['A', 'B', 'C'],
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -227,7 +227,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
         yield 'with_filtered_files' => [
             [
             ],
-            $this->mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(GitPreCommitContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -239,7 +239,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'skip_initial_tests' => true,
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',
@@ -251,7 +251,7 @@ class InfectionTest extends AbstractExternalTaskTestCase
             [
                 'coverage' => '/path/to/coverage',
             ],
-            $this->mockContext(RunContext::class, ['hello.php', 'hello2.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'hello2.php']),
             'infection',
             [
                 '--no-interaction',

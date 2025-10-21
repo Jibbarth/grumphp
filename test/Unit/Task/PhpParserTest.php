@@ -31,7 +31,7 @@ class PhpParserTest extends AbstractTaskTestCase
         return new PhpParser($this->parser->reveal());
     }
 
-    public function provideConfigurableOptions(): iterable
+    public static function provideConfigurableOptions(): iterable
     {
         yield 'defaults' => [
             [],
@@ -45,69 +45,69 @@ class PhpParserTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideRunContexts(): iterable
+    public static function provideRunContexts(): iterable
     {
         yield 'run-context' => [
             true,
-            $this->mockContext(RunContext::class)
+            self::mockContext(RunContext::class)
         ];
 
         yield 'pre-commit-context' => [
             true,
-            $this->mockContext(GitPreCommitContext::class)
+            self::mockContext(GitPreCommitContext::class)
         ];
 
         yield 'other' => [
             false,
-            $this->mockContext()
+            self::mockContext()
         ];
     }
 
-    public function provideFailsOnStuff(): iterable
+    public static function provideFailsOnStuff(): iterable
     {
         $prefix = "Some errors occured while parsing your PHP files:\n";
 
         yield 'invalid-file' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function (array $options, ContextInterface $context) {
                 $this->assumeParserConfig($options);
                 $this->parser->parse($context->getFiles()->first())->willReturn(new ParseErrorsCollection([
-                    $this->createParseError('hello.php'),
-                    $this->createParseError('hello.php'),
+                    self::createParseError('hello.php'),
+                    self::createParseError('hello.php'),
                 ]));
             },
             $prefix.(new ParseErrorsCollection([
-                $this->createParseError('hello.php'),
-                $this->createParseError('hello.php'),
+                self::createParseError('hello.php'),
+                self::createParseError('hello.php'),
             ]))
         ];
         yield 'invalid-files' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php', 'world.php']),
+            self::mockContext(RunContext::class, ['hello.php', 'world.php']),
             function (array $options, ContextInterface $context) {
                 $this->assumeParserConfig($options);
                 $this->parser->parse($context->getFiles()[0])->willReturn(new ParseErrorsCollection([
-                    $this->createParseError('hello.php'),
-                    $this->createParseError('hello.php'),
+                    self::createParseError('hello.php'),
+                    self::createParseError('hello.php'),
                 ]));
                 $this->parser->parse($context->getFiles()[1])->willReturn(new ParseErrorsCollection([
-                    $this->createParseError('world.php'),
+                    self::createParseError('world.php'),
                 ]));
             },
             $prefix.(new ParseErrorsCollection([
-                $this->createParseError('hello.php'),
-                $this->createParseError('hello.php'),
-                $this->createParseError('world.php'),
+                self::createParseError('hello.php'),
+                self::createParseError('hello.php'),
+                self::createParseError('world.php'),
             ]))
         ];
     }
 
-    public function providePassesOnStuff(): iterable
+    public static function providePassesOnStuff(): iterable
     {
         yield 'no-lint-errors' => [
             [],
-            $this->mockContext(RunContext::class, ['hello.php']),
+            self::mockContext(RunContext::class, ['hello.php']),
             function (array $options, ContextInterface $context) {
                 $this->assumeParserConfig($options);
                 $this->parser->parse($context->getFiles()[0])->willReturn(new ParseErrorsCollection([]));
@@ -117,7 +117,7 @@ class PhpParserTest extends AbstractTaskTestCase
             [
                 'ignore_patterns' => ['test/'],
             ],
-            $this->mockContext(RunContext::class, ['test/file.php']),
+            self::mockContext(RunContext::class, ['test/file.php']),
             function (array $options, ContextInterface $context) {
                 $this->assumeParserConfig($options);
                 $this->parser->parse($context->getFiles()[0])->willReturn(new ParseErrorsCollection([]));
@@ -125,16 +125,16 @@ class PhpParserTest extends AbstractTaskTestCase
         ];
     }
 
-    public function provideSkipsOnStuff(): iterable
+    public static function provideSkipsOnStuff(): iterable
     {
         yield 'no-files' => [
             [],
-            $this->mockContext(RunContext::class),
+            self::mockContext(RunContext::class),
             function () {}
         ];
         yield 'no-files-after-triggered-by' => [
             [],
-            $this->mockContext(RunContext::class, ['notaymlfile.txt']),
+            self::mockContext(RunContext::class, ['notaymlfile.txt']),
             function () {}
         ];
     }
@@ -144,7 +144,7 @@ class PhpParserTest extends AbstractTaskTestCase
         $this->parser->setParserOptions($options)->shouldBeCalled();
     }
 
-    private function createParseError(string $fileName): PhpParserError
+    private static function createParseError(string $fileName): PhpParserError
     {
         return new PhpParserError(PhpParserError::TYPE_ERROR, 'error', $fileName);
     }
