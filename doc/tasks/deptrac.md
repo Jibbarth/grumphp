@@ -1,6 +1,6 @@
 # Deptrac
 
-Follow the [installation instructions](https://qossmic.github.io/deptrac/#installation) to add deptrac to your 
+Follow the [installation instructions](https://deptrac.github.io/deptrac/#installation) to add deptrac to your 
 project.
 
 The Deptrac task will check for dependencies between the software layers of your project. It lives under the `deptrac` 
